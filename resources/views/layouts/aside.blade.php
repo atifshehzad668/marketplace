@@ -140,46 +140,76 @@
         </li>
 
         <li class="menu-item">
-            <a href="{{ route('permission.index') }}" class="menu-link">
-                <i class='bx bx-lock-alt'></i> <!-- Permission Icon -->
-                <div class="text-truncate" data-i18n="Without menu">Permission</div>
-            </a>
+            @can('permission-list')
+                <a href="{{ route('permission.index') }}" class="menu-link">
+                    <i class='bx bx-lock-alt'></i> <!-- Permission Icon -->
+                    <div class="text-truncate" data-i18n="Without menu">Permission</div>
+                </a>
+            @endcan
         </li>
 
         <li class="menu-item">
-            <a href="{{ route('roles.index') }}" class="menu-link">
-                <i class='bx bx-user-check'></i> <!-- Roles Icon -->
-                <div class="text-truncate" data-i18n="Without navbar">Roles</div>
-            </a>
+            @can('role-list')
+                <a href="{{ route('roles.index') }}" class="menu-link">
+                    <i class='bx bx-user-check'></i> <!-- Roles Icon -->
+                    <div class="text-truncate" data-i18n="Without navbar">Roles</div>
+                </a>
+            @endcan
         </li>
 
         <li class="menu-item">
-            <a href="{{ route('categories.index') }}" class="menu-link">
-                <i class='bx bx-category'></i> <!-- Category Icon -->
-                <div class="text-truncate" data-i18n="Fluid">Category</div>
-            </a>
+            @can('category-list')
+                <a href="{{ route('categories.index') }}" class="menu-link">
+                    <i class='bx bx-category'></i> <!-- Category Icon -->
+                    <div class="text-truncate" data-i18n="Fluid">Category</div>
+                </a>
+            @endcan
         </li>
 
         <li class="menu-item">
-            <a href="{{ route('listings.index') }}" class="menu-link">
-                <i class='bx bx-list-ul'></i> <!-- Listings Icon -->
-                <div class="text-truncate" data-i18n="Container">Listings</div>
-            </a>
+            @can('listing-list')
+                <a href="{{ route('listings.index') }}" class="menu-link">
+                    <i class='bx bx-list-ul'></i> <!-- Listings Icon -->
+                    <div class="text-truncate" data-i18n="Container">Listings</div>
+                </a>
+            @endcan
         </li>
+
 
         <li class="menu-item">
             <a href="{{ route('orders.index') }}" class="menu-link">
                 <i class='bx bx-cart'></i> <!-- Order As Seller Icon -->
-                <div class="text-truncate" data-i18n="Blank">Order As Seller</div>
+                <div class="text-truncate" data-i18n="Blank">Sold Orders</div>
             </a>
         </li>
 
         <li class="menu-item">
             <a href="{{ route('orders.archived') }}" class="menu-link">
                 <i class='bx bx-archive'></i> <!-- Order As Purchaser Icon -->
-                <div class="text-truncate" data-i18n="Blank">Order As Purchaser</div>
+                <div class="text-truncate" data-i18n="Blank">Purchase Order</div>
             </a>
         </li>
+        @php
+            use App\Models\Order;
+            $authId = Auth::id();
+            $pendingOrderCount = Order::where('status', 'Pending')
+                ->where(function ($query) use ($authId) {
+                    $query->where('seller_id', $authId)->orWhere('buyer_id', $authId);
+                })
+                ->count();
+        @endphp
+
+
+
+        <li class="menu-item">
+            <a href="{{ route('orders.pending') }}" class="menu-link">
+                <i class='bx bx-archive'></i> <!-- Order As Purchaser Icon -->
+                <div class="text-truncate" data-i18n="Blank">
+                    Pending Orders: <span style="color: red; display: inline;">{{ $pendingOrderCount }}</span>
+                </div>
+            </a>
+        </li>
+
 
 
 

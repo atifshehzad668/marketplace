@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-         return redirect()->intended(route('admin.dashboard', absolute: false));
+        return redirect()->intended(route('admin.dashboard', absolute: false));
         // if (Auth::check()) {
         //     if (Auth::user()->hasRole('Super Admin')) {
         //         return redirect()->route('admin.dashboard');
@@ -38,7 +38,7 @@ class AuthenticatedSessionController extends Controller
         // }
 
         // Fallback redirect if user is authenticated but no role matches
-        return redirect()->route('login')->withErrors(['email' => 'No matching role found.']);
+        // return redirect()->route('login')->withErrors(['email' => 'No matching role found.']);
     }
 
     /**
@@ -52,6 +52,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login');
     }
 }

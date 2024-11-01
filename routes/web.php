@@ -49,15 +49,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/permissions/update/{id}', [PermissionController::class, 'update'])->middleware('permission:permission-update')->name('permission.update');
     Route::delete('/permissions/delete/{id}', [PermissionController::class, 'destroy'])->middleware('permission:permission-delete')->name('permission.destroy');
 
-    // Route::resource('roles', RoleController::class)
-    //     ->middleware([
-    //         'index' => 'permission:role-list',
-    //         'create' => 'permission:role-create',
-    //         'store' => 'permission:role-create',
-    //         'edit' => 'permission:role-edit',
-    //         'update' => 'permission:role-edit',
-    //         'destroy' => 'permission:role-delete',
-    //     ]);
 
 
 
@@ -145,75 +136,10 @@ Route::middleware('auth')->group(function () {
 
 
     // Order routes
-    Route::get('/orders', [OrderController::class, 'index'])
-        ->middleware('permission:order-index')
-        ->name('orders.index');
-
-    Route::get('/orders/create', [OrderController::class, 'create'])
-        ->middleware('permission:order-create')
-        ->name('orders.create');
-
-    Route::post('/orders/store', [OrderController::class, 'store'])
-        ->middleware('permission:order-store')
-        ->name('orders.store');
-
-    Route::get('/orders/show/{id}', [OrderController::class, 'show'])
-        ->middleware('permission:order-show')
-        ->name('orders.show');
-
-    Route::get('/orders/edit/{id}', [OrderController::class, 'edit'])
-        ->middleware('permission:order-edit')
-        ->name('orders.edit');
-
-    Route::post('/orders/update/{id}', [OrderController::class, 'update'])
-        ->middleware('permission:order-update')
-        ->name('orders.update');
-
-    Route::delete('/orders/delete/{id}', [OrderController::class, 'destroy'])
-        ->middleware('permission:order-delete')
-        ->name('orders.destroy');
 
 
-    // Route::resource('articles', ArticleController::class)
-    //     ->middleware([
-    //         'index' => 'permission:article-list',
-    //         'create' => 'permission:article-create',
-    //         'store' => 'permission:article-create',
-    //         'edit' => 'permission:article-edit',
-    //         'update' => 'permission:article-edit',
-    //         'destroy' => 'permission:article-delete',
-    //     ]);
 
-    // Route::resource('categories', CategoryController::class)
-    //     ->middleware([
-    //         'index' => 'permission:category-list',
-    //         'create' => 'permission:category-create',
-    //         'store' => 'permission:category-create',
-    //         'edit' => 'permission:category-edit',
-    //         'update' => 'permission:category-edit',
-    //         'destroy' => 'permission:category-delete',
-    //     ]);
 
-    // Route::resource('listings', ListingController::class)
-    //     ->middleware([
-    //         'index' => 'permission:listing-list',
-    //         'create' => 'permission:listing-create',
-    //         'store' => 'permission:listing-create',
-    //         'edit' => 'permission:listing-edit',
-    //         'update' => 'permission:listing-edit',
-    //         'destroy' => 'permission:listing-delete',
-    //     ]);
-
-    // Route::resource('orders', OrderController::class)
-    //     ->middleware([
-    //         'index' => 'permission:order-index',
-    //         'create' => 'permission:order-create',
-    //         'store' => 'permission:order-store',
-    //         'edit' => 'permission:order-edit',
-    //         'update' => 'permission:order-update',
-    //         'destroy' => 'permission:order-delete',
-    //         'show' => 'permission:order-show',
-    //     ]);
 
 
 
@@ -237,29 +163,10 @@ Route::middleware('auth')->group(function () {
         ->middleware('permission:category-delete')
         ->name('categories.destroy');
 
-    // Listing routes with individual middleware
-    // Route::get('/listings', [ListingController::class, 'index'])
-    //     ->middleware('permission:listing-list')
-    //     ->name('listings.index');
-    // Route::get('/listings/create', [ListingController::class, 'create'])
-    //     ->middleware('permission:listing-create')
-    //     ->name('listings.create');
-    // Route::post('/listings', [ListingController::class, 'store'])
-    //     ->middleware('permission:listing-create')
-    //     ->name('listings.store');
-    // Route::get('/listings/{listing}/edit', [ListingController::class, 'edit'])
-    //     ->middleware('permission:listing-edit')
-    //     ->name('listings.edit');
-    // Route::post('/listings/update/{$id}', [ListingController::class, 'update'])
-    //     ->middleware('permission:listing-edit')
-    //     ->name('listings.update');
-    // Route::delete('/listings/{$id}', [ListingController::class, 'destroy'])
-    //     ->middleware('permission:listing-delete')
-    //     ->name('listings.destroy');
 
     // Order routes with individual middleware
     Route::get('/orders', [OrderController::class, 'index'])
-        ->middleware('permission:order-index')
+
         ->name('orders.index');
     Route::get('/orders/create', [OrderController::class, 'create'])
         ->middleware('permission:order-create')
@@ -286,10 +193,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('orders/archived', [OrderController::class, 'archived'])
-        ->middleware('permission:order-archive')
+
         ->name('orders.archived');
 
-    Route::post('orders/processing/{id}', [OrderController::class, 'processing'])->middleware('permission:order-process')->name('orders.processing');
+
+    Route::post('orders/processing/{id}', [OrderController::class, 'processing'])->name('orders.processing');
     Route::get('listings/list', [ListingController::class, 'get_listings'])->name('listings.list');
 
 
@@ -302,6 +210,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/market/place', [MarketplaceController::class, 'marketplace'])->name('market.place');
     Route::get('/listing/view/{id}', [MarketplaceController::class, 'listings_view'])->name('listing.view');
+    Route::get('orders/buy/{id}', [MarketplaceController::class, 'buy'])->name('orders.buy');
+    Route::get('orders/pending', [MarketplaceController::class, 'pending'])->name('orders.pending');
 });
 
 require __DIR__ . '/auth.php';

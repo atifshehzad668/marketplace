@@ -56,7 +56,7 @@
                         <p class="card-text">{{ $listing->description }}</p>
                         <div class="d-flex justify-content-between mt-2 py-1 ml-2">
                             <a href="{{ route('listing.view', $listing->id) }}" class="btn btn-primary">View</a>
-                            <a href="#" class="btn btn-primary">Buy</a>
+                            <a href="{{ route('orders.buy', $listing->id) }}" class="btn btn-primary">Buy</a>
                         </div>
                     </div>
                 </div>
@@ -78,6 +78,11 @@
 
 
     </div>
+    @if (Session::has('success'))
+        <script>
+            swal("Good job!", "{{ Session::get('success') }}", "success");
+        </script>
+    @endif
 @endsection
 
 @section('customjs')
@@ -121,6 +126,7 @@
                             var images = listing.images.length > 0 ?
                                 `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
                                 '<span>No image</span>';
+
                             var listingCard = `
                     <div class="card" style="width: 18rem;">
                         <div class="card-body">
@@ -129,7 +135,7 @@
                             <p class="card-text">${listing.description}</p>
                             <div class="d-flex justify-content-between mt-2 py-1 ml-2">
                                 <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
-                                <a href="#" class="btn btn-primary">Buy</a>
+                                <a href="/order/buy/${listing.id}" class="btn btn-primary">Buy</a>
                             </div>
                         </div>
                     </div>`;
@@ -176,7 +182,7 @@
                             <p class="card-text">${listing.description}</p>
                             <div class="d-flex justify-content-between mt-2 py-1 ml-2">
                                 <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
-                                <a href="#" class="btn btn-primary">Buy</a>
+                                <a href="/order/buy/${listing.id}" class="btn btn-primary">Buy</a>
                             </div>
                         </div>
                     </div>`;

@@ -32,12 +32,12 @@ class OrderController extends Controller
             $query->select('id', 'headline');
         }, 'seller', 'buyer'])
             ->where('buyer_id', Auth::id())
+            ->where('status', 'Delivered')
             ->whereHas('Orderlisting')
             ->get();
 
         return view('orders.purchase_order', get_defined_vars());
     }
-
 
     /**
      * Show the form for creating a new resource.

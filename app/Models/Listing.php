@@ -15,6 +15,7 @@ class Listing extends Model
         'headline',
         'description',
         'quantity',
+        'price',
         'expiration_date',
 
     ];

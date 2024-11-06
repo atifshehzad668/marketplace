@@ -65,73 +65,73 @@
             </a>
             <ul class="menu-sub">
                 @can('permission-list')
-                    <li class="menu-item active">
-                        <a href="" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Permissions</div>
-                        </a>
-                    </li>
-                @endcan
-                @canany(['role-edit', 'role-delete', 'role-list', 'role-create'])
-                    <li class="menu-item active">
-                        <a href="" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Roles </div>
-                        </a>
-                    </li>
-                @endcan
-                @can('category-list')
-                    <li class="menu-item active">
-                        <a href="{{ route('categories.index') }}" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Category </div>
-                        </a>
-                    </li>
-                @endcan
-                @can('listing-list')
-                    <li class="menu-item active">
-                        <a href="{{ route('listings.index') }}" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Listings </div>
-                        </a>
-                    </li>
-                @endcan
-                @can('order-index')
-                    <li class="menu-item active">
-                        <a href="{{ route('orders.index') }}" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Order as Seller </div>
-                        </a>
-                    </li>
-                @endcan
-                @can('order-archive')
-                    <li class="menu-item active">
-                        <a href="{{ route('orders.archived') }}" class="menu-link">
-                            <div class="text-truncate" data-i18n="Analytics">Order as purchaser </div>
-                        </a>
-                    </li>
-                @endcan
+        <li class="menu-item active">
+            <a href="" class="menu-link">
+                <div class="text-truncate" data-i18n="Analytics">Permissions</div>
+            </a>
+        </li>
+        {{-- @endcan --}}
+        {{-- @canany(['role-edit', 'role-delete', 'role-list', 'role-create'])
+            <li class="menu-item active">
+                <a href="" class="menu-link">
+                    <div class="text-truncate" data-i18n="Analytics">Roles </div>
+                </a>
+            </li>
+        @endcan
+        @can('category-list')
+            <li class="menu-item active">
+                <a href="{{ route('categories.index') }}" class="menu-link">
+                    <div class="text-truncate" data-i18n="Analytics">Category </div>
+                </a>
+            </li>
+        @endcan
+        @can('listing-list')
+            <li class="menu-item active">
+                <a href="{{ route('listings.index') }}" class="menu-link">
+                    <div class="text-truncate" data-i18n="Analytics">Listings </div>
+                </a>
+            </li>
+        @endcan
+        @can('order-index')
+            <li class="menu-item active">
+                <a href="{{ route('orders.index') }}" class="menu-link">
+                    <div class="text-truncate" data-i18n="Analytics">Order as Seller </div>
+                </a>
+            </li>
+        @endcan
+        @can('order-archive')
+            <li class="menu-item active">
+                <a href="{{ route('orders.archived') }}" class="menu-link">
+                    <div class="text-truncate" data-i18n="Analytics">Order as purchaser </div>
+                </a>
+            </li>
+        @endcan
 
-                <li class="menu-item">
-                    <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html"
-                        target="_blank" class="menu-link">
-                        <div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
-                        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
-                        target="_blank" class="menu-link">
-                        <div class="text-truncate" data-i18n="Logistics">Logistics</div>
-                        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                        </div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-academy-dashboard.html" target="_blank" class="menu-link">
-                        <div class="text-truncate" data-i18n="Academy">Academy</div>
-                        <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </li> --}}
+        <li class="menu-item">
+            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html"
+                target="_blank" class="menu-link">
+                <div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
+                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
+                </div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
+                target="_blank" class="menu-link">
+                <div class="text-truncate" data-i18n="Logistics">Logistics</div>
+                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
+                </div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="app-academy-dashboard.html" target="_blank" class="menu-link">
+                <div class="text-truncate" data-i18n="Academy">Academy</div>
+                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
+                </div>
+            </a>
+        </li>
+    </ul>
+    </li> --}}
         <li class="menu-item">
             <a href="{{ route('market.place') }}" class="menu-link">
                 <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
@@ -158,21 +158,21 @@
         </li>
 
         <li class="menu-item">
-            @can('category-list')
-                <a href="{{ route('categories.index') }}" class="menu-link">
-                    <i class='bx bx-category'></i> <!-- Category Icon -->
-                    <div class="text-truncate" data-i18n="Fluid">Category</div>
-                </a>
-            @endcan
+            {{-- @can('category-list') --}}
+            <a href="{{ route('categories.index') }}" class="menu-link">
+                <i class='bx bx-category'></i> <!-- Category Icon -->
+                <div class="text-truncate" data-i18n="Fluid">Category</div>
+            </a>
+            {{-- @endcan --}}
         </li>
 
         <li class="menu-item">
-            @can('listing-list')
-                <a href="{{ route('listings.index') }}" class="menu-link">
-                    <i class='bx bx-list-ul'></i> <!-- Listings Icon -->
-                    <div class="text-truncate" data-i18n="Container">Listings</div>
-                </a>
-            @endcan
+            {{-- @can('listing-list') --}}
+            <a href="{{ route('listings.index') }}" class="menu-link">
+                <i class='bx bx-list-ul'></i> <!-- Listings Icon -->
+                <div class="text-truncate" data-i18n="Container">Listings</div>
+            </a>
+            {{-- @endcan --}}
         </li>
 
 

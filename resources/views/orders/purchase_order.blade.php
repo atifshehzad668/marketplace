@@ -10,6 +10,7 @@
                     <thead>
                         <tr>
                             <th>Name</th>
+                            <th>Product Price</th>
                             <th>Seller Name</th>
 
                             <th>Status</th>
@@ -28,6 +29,7 @@
                                         <p>No listing available for this order.</p>
                                     @endif
                                 </td>
+                                <td> {{ $order->Orderlisting->price }}</td>
                                 <td> {{ $order->seller->name }}</td>
 
                                 <td>{{ $order->status }}</td>

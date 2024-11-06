@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('admin.dashboard', absolute: false));
+        return redirect()->intended(route('market.place', absolute: false));
         // if (Auth::check()) {
         //     if (Auth::user()->hasRole('Super Admin')) {
         //         return redirect()->route('admin.dashboard');

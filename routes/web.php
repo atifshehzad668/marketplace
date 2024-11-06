@@ -12,11 +12,11 @@ use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
 
-Route::get('/admin/dashboard', function () {
+Route::get('/admin/dashboad', function () {
     return view('layouts.app');
 })->middleware(['auth', 'verified'])->name('admin.dashboard');
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 })->name('welcome');
 
 Route::get('/user/dashboard', function () {
@@ -79,112 +79,81 @@ Route::middleware('auth')->group(function () {
 
     // Category routes
     Route::get('/categories', [CategoryController::class, 'index'])
-        ->middleware('permission:category-list')
+        // ->middleware('permission:category-list')
         ->name('categories.index');
 
     Route::get('/categories/create', [CategoryController::class, 'create'])
-        ->middleware('permission:category-create')
+        // ->middleware('permission:category-create')
         ->name('categories.create');
 
     Route::post('/categories/store', [CategoryController::class, 'store'])
-        ->middleware('permission:category-create')
+        // ->middleware('permission:category-create')
         ->name('categories.store');
 
     Route::get('/categories/edit/{id}', [CategoryController::class, 'edit'])
-        ->middleware('permission:category-edit')
+        // ->middleware('permission:category-edit')
         ->name('categories.edit');
 
     Route::post('/categories/update/{id}', [CategoryController::class, 'update'])
-        ->middleware('permission:category-edit')
+        // ->middleware('permission:category-edit')
         ->name('categories.update');
 
     Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy'])
-        ->middleware('permission:category-delete')
+        // ->middleware('permission:category-delete')
         ->name('categories.destroy');
 
     // Listing routes
     Route::get('/listings', [ListingController::class, 'index'])
-        ->middleware('permission:listing-list')
+        // ->middleware('permission:listing-list')
         ->name('listings.index');
 
     Route::get('/listings/create', [ListingController::class, 'create'])
-        ->middleware('permission:listing-create')
+        // ->middleware('permission:listing-create')
         ->name('listings.create');
 
     Route::post('/listings/store', [ListingController::class, 'store'])
-        ->middleware('permission:listing-create')
+        // ->middleware('permission:listing-create')
         ->name('listings.store');
 
     Route::get('/listings/edit/{id}', [ListingController::class, 'edit'])
-        ->middleware('permission:listing-edit')
+        // ->middleware('permission:listing-edit')
         ->name('listings.edit');
 
     Route::post('/listings/update/{id}', [ListingController::class, 'update'])
-        ->middleware('permission:listing-edit')
+        // ->middleware('permission:listing-edit')
         ->name('listings.update');
 
     Route::delete('/listings/delete/{id}', [ListingController::class, 'destroy'])
-        ->middleware('permission:listing-delete')
+        // ->middleware('permission:listing-delete')
         ->name('listings.destroy');
     Route::get('/listings/show/{id}', [ListingController::class, 'show'])
-        ->middleware('permission:listing-show')
+        // ->middleware('permission:listing-show')
         ->name('listings.show');
     Route::get('/api/regions', [ListingController::class, 'getRegionsByCity']);
     Route::get('/filter/by/city', [MarketplaceController::class, 'filterlistingsbycity'])->name('filter.bycity');
     Route::get('/listings/search', [MarketplaceController::class, 'searchListings'])->name('listing.search');
-
-
-
-    // Order routes
-
-
-
-
-
-
-
-    // Category routes with individual middleware
-    Route::get('/categories', [CategoryController::class, 'index'])
-        ->middleware('permission:category-list')
-        ->name('categories.index');
-    Route::get('/categories/create', [CategoryController::class, 'create'])
-        ->middleware('permission:category-create')
-        ->name('categories.create');
-    Route::post('/categories', [CategoryController::class, 'store'])
-        ->middleware('permission:category-create')
-        ->name('categories.store');
-    Route::get('/categories/{$id}/edit', [CategoryController::class, 'edit'])
-        ->middleware('permission:category-edit')
-        ->name('categories.edit');
-    Route::post('/categories/update/{$id}', [CategoryController::class, 'update'])
-        ->middleware('permission:category-edit')
-        ->name('categories.update');
-    Route::delete('/categories/destroy/{$id}', [CategoryController::class, 'destroy'])
-        ->middleware('permission:category-delete')
-        ->name('categories.destroy');
-
 
     // Order routes with individual middleware
     Route::get('/orders', [OrderController::class, 'index'])
 
         ->name('orders.index');
     Route::get('/orders/create', [OrderController::class, 'create'])
-        ->middleware('permission:order-create')
+        // ->middleware('permission:order-create')
         ->name('orders.create');
     Route::post('/orders', [OrderController::class, 'store'])
-        ->middleware('permission:order-store')
+        // ->middleware('permission:order-store')
         ->name('orders.store');
     Route::get('/orders/show/{$id}', [OrderController::class, 'show'])
-        ->middleware('permission:order-show')
+        // ->middleware('permission:order-show')
         ->name('orders.show');
-    Route::get('/orders/{$id}/edit', [OrderController::class, 'edit'])
-        ->middleware('permission:order-edit')
+    Route::get('/orders/edit/{$id}', [OrderController::class, 'edit'])
+        // ->middleware('permission:order-edit')
         ->name('orders.edit');
     Route::post('/orders/update/{$id}', [OrderController::class, 'update'])
-        ->middleware('permission:order-update')
+        // ->middleware('permission:order-update')
         ->name('orders.update');
     Route::delete('/orders//destroy{$id}', [OrderController::class, 'destroy'])
-        ->middleware('permission:order-delete')
+        // ->middleware('permission:order-delete')
         ->name('orders.destroy');
 
 
@@ -211,6 +180,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/market/place', [MarketplaceController::class, 'marketplace'])->name('market.place');
     Route::get('/listing/view/{id}', [MarketplaceController::class, 'listings_view'])->name('listing.view');
     Route::get('orders/buy/{id}', [MarketplaceController::class, 'buy'])->name('orders.buy');
+    Route::get('success', [MarketplaceController::class, 'success'])->name('success');
+    Route::get('cancel', [MarketplaceController::class, 'cancel'])->name('cancel');
     Route::get('orders/pending', [MarketplaceController::class, 'pending'])->name('orders.pending');
 });
 

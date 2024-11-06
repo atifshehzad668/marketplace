@@ -116,10 +116,11 @@ class ListingController extends Controller
             'region_id' => 'required|exists:regions,id',
             'description' => 'required|string',
             'quantity' => 'required|integer|min:1',
+            'price' => 'required|integer',
             'expiration_date' => 'required|date',
         ]);
 
-        // Create new listing
+
         $listing = Listing::create([
             'user_id' => Auth::id(),
             'category_id' => $request->category_id,
@@ -128,6 +129,7 @@ class ListingController extends Controller
             'headline' => $request->headline,
             'description' => $request->description,
             'quantity' => $request->quantity,
+            'price' => $request->price,
             'expiration_date' => $request->expiration_date,
         ]);
 

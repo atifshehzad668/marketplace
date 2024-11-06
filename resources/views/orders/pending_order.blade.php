@@ -3,7 +3,7 @@
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <div class="card">
-            <h5 class="card-header">Sold Orders</h5>
+            <h5 class="card-header">Pending Orders</h5>
             {{-- <a href="{{ route('listings.create') }}" class="btn btn-primary ml-4 col-md-3 mb-4">Create Listing</a> --}}
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -38,10 +38,17 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            {{-- Edit button, visible only if the user has 'edit' permission --}}
-
-
-                                            {{-- Process button, visible only if the order status is not "Delivered" and user has 'process' permission --}}
+                                            @if ($order->status !== 'Delivered')
+                                                @if ($order->Orderlisting && $order->Orderlisting->user_id == Auth::id())
+                                                    <form action="{{ route('orders.processing', $order->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-loader bx-spin me-1"></i> Process
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @endif
 
 
 

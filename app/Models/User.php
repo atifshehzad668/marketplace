@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'profile_image',
     ];
 
     /**
@@ -47,7 +48,7 @@ class User extends Authenticatable
         ];
     }
 
-   
+
     public function listings()
     {
         return $this->hasMany(Listing::class);

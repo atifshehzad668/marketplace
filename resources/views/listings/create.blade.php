@@ -1,5 +1,3 @@
-
-
 @extends('layouts.app')
 
 @section('content')
@@ -95,6 +93,15 @@
                         <div class="col-sm-10">
                             <input type="number" class="form-control" name="quantity" value="1" min="1" />
                             @error('quantity')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="price" />
+                            @error('price')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>

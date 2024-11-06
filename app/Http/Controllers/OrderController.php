@@ -17,9 +17,10 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['Orderlisting' => function ($query) {
-            $query->select('id', 'headline');
+            $query->select('id', 'headline', 'price');
         }, 'seller', 'buyer'])
             ->where('seller_id', Auth::id())
+            ->where('status', 'Delivered')
             ->whereHas('Orderlisting')
             ->get();
 
@@ -29,7 +30,7 @@ class OrderController extends Controller
     public function archived()
     {
         $orders = Order::with(['Orderlisting' => function ($query) {
-            $query->select('id', 'headline');
+            $query->select('id', 'headline', 'price');
         }, 'seller', 'buyer'])
             ->where('buyer_id', Auth::id())
             ->where('status', 'Delivered')

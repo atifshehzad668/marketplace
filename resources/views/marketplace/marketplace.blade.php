@@ -52,11 +52,15 @@
                         @else
                             <span>No image</span>
                         @endif
-                        <h5 class="card-title">{{ $listing->headline }}</h5>
-                        <p class="card-text">{{ $listing->description }}</p>
+                        <h5 class="card-title">Name: {{ $listing->headline }}</h5>
+                        <p class="card-text">
+                        <p>
+                        <h5 style="display: inline">Price: </h5>${{ $listing->price }}</p>
                         <div class="d-flex justify-content-between mt-2 py-1 ml-2">
                             <a href="{{ route('listing.view', $listing->id) }}" class="btn btn-primary">View</a>
-                            <a href="{{ route('orders.buy', $listing->id) }}" class="btn btn-primary">Buy</a>
+                            <a href="javascript:void(0)" class="btn btn-primary buy-btn"
+                                data-listing-id="{{ $listing->id }}" data-listing-name="{{ $listing->headline }}"
+                                data-listing-price="{{ $listing->price }}">Buy</a>
                         </div>
                     </div>
                 </div>
@@ -91,67 +95,102 @@
             let cityId = this.value;
             let regionSelect = document.getElementById('region-select');
 
-            // Clear previous options
-            regionSelect.innerHTML = '<option value="">Select region</option>';
+            Swal.fire({
+                title: 'Please Wait!',
+                html: 'Fetching regions...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            regionSelect.innerHTML = '<option value="">Select region</option>'; // Clear previous options
 
             if (cityId) {
                 fetch(`/api/regions?city_id=${cityId}`)
                     .then(response => response.json())
                     .then(data => {
-                        data.forEach(region => {
-                            let option = document.createElement('option');
-                            option.value = region.id;
-                            option.textContent = region.region_name;
-                            regionSelect.appendChild(option);
-                        });
+                        setTimeout(() => { // 1-second delay
+                            data.forEach(region => {
+                                let option = document.createElement('option');
+                                option.value = region.id;
+                                option.textContent = region.region_name;
+                                regionSelect.appendChild(option);
+                            });
+                            Swal.close();
+                        }, 1000);
                     })
-                    .catch(error => console.error('Error fetching regions:', error));
+                    .catch(error => {
+                        Swal.close();
+                        console.error('Error fetching regions:', error);
+                    });
+            } else {
+                Swal.close();
             }
         });
+
         $("#city-select, #region-select").on('change', function() {
             var cityId = $("#city-select").val();
             var regionId = $("#region-select").val();
 
+            Swal.fire({
+                title: 'Please Wait!',
+                html: 'Loading listings...',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
             $.ajax({
                 type: "GET",
-                url: "{{ route('filter.bycity') }}", // Adjust if needed
+                url: "{{ route('filter.bycity') }}",
                 data: {
                     'city_id': cityId,
                     'region_id': regionId
                 },
                 success: function(data) {
-                    $('#listing-container').html(''); // Clear existing listings
-                    if (data.listings.length > 0) {
-                        data.listings.forEach(function(listing) {
-                            var images = listing.images.length > 0 ?
-                                `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
-                                '<span>No image</span>';
+                    setTimeout(() => { // 1-second delay
+                        $('#listing-container').html(''); // Clear existing listings
+                        if (data.listings.length > 0) {
+                            data.listings.forEach(function(listing) {
+                                var images = listing.images.length > 0 ?
+                                    `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
+                                    '<span>No image</span>';
 
-                            var listingCard = `
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            ${images}
-                            <h5 class="card-title">${listing.headline}</h5>
-                            <p class="card-text">${listing.description}</p>
-                            <div class="d-flex justify-content-between mt-2 py-1 ml-2">
-                                <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
-                                <a href="/order/buy/${listing.id}" class="btn btn-primary">Buy</a>
-                            </div>
-                        </div>
-                    </div>`;
-                            $('#listing-container').append(listingCard);
-                        });
-                    } else {
-                        $('#listing-container').html('<h3>No Listings Found</h3>');
-                    }
+                                var listingCard = `
+                                    <div class="card" style="width: 18rem;">
+                                        <div class="card-body">
+                                            ${images}
+                                            <h5 class="card-title"> Name: ${listing.headline}</h5>
+                                            <p class="card-text"><h5 style="display: inline">Price: </h5>${listing.price}</p>
+                                            <div class="d-flex justify-content-between mt-2 py-1 ml-2">
+                                                <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
+                                              <a href="javascript:void(0)" class="btn btn-primary buy-btn"
+                                                data-listing-id="${listing.id}"
+                                                data-listing-name="${listing.headline}"
+                                                data-listing-price="${listing.price}">
+                                                Buy
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>`;
+                                $('#listing-container').append(listingCard);
+                            });
+                        } else {
+                            $('#listing-container').html('<h3>No Listings Found</h3>');
+                        }
+                        Swal.close();
+                    }, 1000);
                 },
                 error: function(err) {
-                    console.log(err.responseText);
+                    setTimeout(() => { // 1-second delay
+                        Swal.close();
+                        console.log(err.responseText);
+                    }, 1000);
                 }
             });
         });
-
-
 
         $("#listing_key").on("keyup", function() {
             var searchQuery = $(this).val().trim();
@@ -161,9 +200,18 @@
                 return;
             }
 
+            // Swal.fire({
+            //     title: 'Please Wait!',
+            //     html: 'Searching listings...',
+            //     allowOutsideClick: false,
+            //     didOpen: () => {
+            //         Swal.showLoading();
+            //     }
+            // });
+
             $.ajax({
                 type: "GET",
-                url: "{{ route('listing.search') }}", // Ensure this route matches your new controller method
+                url: "{{ route('listing.search') }}",
                 data: {
                     'search': searchQuery
                 },
@@ -175,25 +223,58 @@
                                 `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
                                 '<span>No image</span>';
                             var listingCard = `
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body">
-                            ${images}
-                            <h5 class="card-title">${listing.headline}</h5>
-                            <p class="card-text">${listing.description}</p>
-                            <div class="d-flex justify-content-between mt-2 py-1 ml-2">
-                                <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
-                                <a href="/order/buy/${listing.id}" class="btn btn-primary">Buy</a>
+                        <div class="card" style="width: 18rem;">
+                            <div class="card-body">
+                                ${images}
+                                <h5 class="card-title"> Name: ${listing.headline}</h5>
+                                <p class="card-text"><h5 style="display: inline">Price: </h5>${listing.price}</p>
+                                <div class="d-flex justify-content-between mt-2 py-1 ml-2">
+                                    <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
+                                    <a href="javascript:void(0)" class="btn btn-primary buy-btn"
+                                       data-listing-id="${listing.id}"
+                                       data-listing-name="${listing.headline}"
+                                       data-listing-price="${listing.price}">
+                                       Buy
+                                    </a>
+                                </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
                             $('#listing-container').append(listingCard);
                         });
                     } else {
                         $('#listing-container').html('<h3>No Listings Found</h3>');
                     }
+                    Swal.close();
                 },
                 error: function(err) {
+                    Swal.close();
                     console.log(err.responseText);
+                }
+            });
+        });
+
+
+
+
+        $(document).on('click', '.buy-btn', function() {
+            let listingId = $(this).data('listing-id'); // Get the listing ID
+            let listingName = $(this).data('listing-name'); // Get the listing name
+            let listingPrice = $(this).data('listing-price');
+
+            Swal.fire({
+                title: `Do you like to buy | ${listingName} | for  $${listingPrice}?`,
+                text: "",
+                icon: "success",
+                showCancelButton: true, // Show cancel button
+                confirmButtonText: "Yes, proceed to PayPal",
+                cancelButtonText: "No, cancel"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect to the "orders.buy" route with the listing ID
+                    window.location.href = "{{ route('orders.buy', ':id') }}".replace(':id', listingId);
+                } else {
+                    // User clicked "No"
+                    Swal.fire('Cancelled', 'You did not proceed with the purchase.', 'info');
                 }
             });
         });

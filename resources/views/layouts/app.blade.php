@@ -9,7 +9,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Demo : Dashboard - Analytics | sneat - Bootstrap Dashboard PRO</title>
+    <title>{{ config('app.name') }}</title>
 
     <meta name="description" content="" />
 
@@ -103,7 +103,7 @@
                                             <div class="d-flex">
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
-                                                        <img src="../assets/img/avatars/1.png" alt
+                                                        <img src="{{ asset($user->profile_image) }}" alt
                                                             class="w-px-40 h-auto rounded-circle" />
                                                     </div>
                                                 </div>
@@ -120,14 +120,16 @@
                                         <div class="dropdown-divider my-1"></div>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item"
+                                            href="{{ route('user.profile.edit', ['id' => Auth::id()]) }}">
+
                                             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
                                         </a>
                                     </li>
-                                    <li>
+                                    {{-- <li>
                                         <a class="dropdown-item" href="#"> <i
                                                 class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
-                                    </li>
+                                    </li> --}}
 
                                     <li>
                                         <div class="dropdown-divider my-1"></div>

@@ -40,6 +40,33 @@
                             @enderror
                         </div>
                     </div>
+                    <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">City</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="city_id" id="city-select">
+                                <option value="">Select city</option>
+                                @foreach ($cities as $city)
+                                    <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                @endforeach
+                            </select>
+                            @error('city_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <!-- Region Dropdown -->
+                    <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">Region</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="region_id" id="region-select">
+                                <option value="">Select region</option>
+                            </select>
+                            @error('region_id')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
 
                     <!-- Description -->
                     <div class="row mb-6">
@@ -93,4 +120,29 @@
             </div>
         </div>
     </form>
+@endsection
+@section('customjs')
+    <script>
+        document.getElementById('city-select').addEventListener('change', function() {
+            let cityId = this.value;
+            let regionSelect = document.getElementById('region-select');
+
+            // Clear previous options
+            regionSelect.innerHTML = '<option value="">Select region</option>';
+
+            if (cityId) {
+                fetch(`/api/regions?city_id=${cityId}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(region => {
+                            let option = document.createElement('option');
+                            option.value = region.id;
+                            option.textContent = region.region_name;
+                            regionSelect.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching regions:', error));
+            }
+        });
+    </script>
 @endsection

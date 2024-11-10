@@ -4,13 +4,16 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CityController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\WalletTransactionController;
 
 Route::get('/admin/dashboad', function () {
@@ -28,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/user/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('user.profile.edit');
+    Route::post('/user/profile/update/{id}', [UserProfileController::class, 'update'])->name('user.profile.update');
 
 
 
@@ -102,8 +108,71 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/delete/{id}', [CategoryController::class, 'destroy'])
         // ->middleware('permission:category-delete')
         ->name('categories.destroy');
+    // Category routes
+    Route::get('/cities', [CityController::class, 'index'])
+        // ->middleware('permission:City-list')
+        ->name('cities.index');
+
+    Route::get('/cities/create', [CityController::class, 'create'])
+        // ->middleware('permission:City-create')
+        ->name('cities.create');
+
+    Route::post('/cities/store', [CityController::class, 'store'])
+        // ->middleware('permission:City-create')
+        ->name('cities.store');
+
+    Route::get('/cities/edit/{id}', [CityController::class, 'edit'])
+        // ->middleware('permission:City-edit')
+        ->name('cities.edit');
+
+    Route::post('/cities/update/{id}', [CityController::class, 'update'])
+        // ->middleware('permission:City-edit')
+        ->name('cities.update');
+
+    Route::delete('/cities/delete/{id}', [CityController::class, 'destroy'])
+        // ->middleware('permission:category-delete')
+        ->name('cities.destroy');
+
+
+
+
+
+
+
+
+
+    Route::get('/regions/create', [RegionController::class, 'create'])
+        // ->middleware('permission:Region-create')
+        ->name('regions.create');
+    Route::get('/regions/index', [RegionController::class, 'index'])
+        // ->middleware('permission:Region-index')
+        ->name('regions.index');
+
+    Route::post('/regions/store', [RegionController::class, 'store'])
+        // ->middleware('permission:Region-create')
+        ->name('regions.store');
+
+    Route::get('/regions/edit/{id}', [RegionController::class, 'edit'])
+        // ->middleware('permission:Region-edit')
+        ->name('regions.edit');
+
+    Route::post('/regions/update/{id}', [RegionController::class, 'update'])
+        // ->middleware('permission:Region-edit')
+        ->name('regions.update');
+
+    Route::delete('/regions/delete/{id}', [RegionController::class, 'destroy'])
+        // ->middleware('permission:category-delete')
+        ->name('regions.destroy');
+
+
+
+
+
+
+
 
     // Listing routes
+
     Route::get('/listings', [ListingController::class, 'index'])
         // ->middleware('permission:listing-list')
         ->name('listings.index');

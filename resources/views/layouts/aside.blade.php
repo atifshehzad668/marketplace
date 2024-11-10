@@ -56,82 +56,7 @@
     <div class="menu-inner-shadow"></div>
 
     <ul class="menu-inner py-1">
-        <!-- Dashboards -->
-        {{-- <li class="menu-item active open">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-home-smile"></i>
-                <div class="text-truncate" data-i18n="Dashboards">Dashboards</div>
-                <span class="badge rounded-pill bg-danger ms-auto">5</span>
-            </a>
-            <ul class="menu-sub">
-                @can('permission-list')
-        <li class="menu-item active">
-            <a href="" class="menu-link">
-                <div class="text-truncate" data-i18n="Analytics">Permissions</div>
-            </a>
-        </li>
-        {{-- @endcan --}}
-        {{-- @canany(['role-edit', 'role-delete', 'role-list', 'role-create'])
-            <li class="menu-item active">
-                <a href="" class="menu-link">
-                    <div class="text-truncate" data-i18n="Analytics">Roles </div>
-                </a>
-            </li>
-        @endcan
-        @can('category-list')
-            <li class="menu-item active">
-                <a href="{{ route('categories.index') }}" class="menu-link">
-                    <div class="text-truncate" data-i18n="Analytics">Category </div>
-                </a>
-            </li>
-        @endcan
-        @can('listing-list')
-            <li class="menu-item active">
-                <a href="{{ route('listings.index') }}" class="menu-link">
-                    <div class="text-truncate" data-i18n="Analytics">Listings </div>
-                </a>
-            </li>
-        @endcan
-        @can('order-index')
-            <li class="menu-item active">
-                <a href="{{ route('orders.index') }}" class="menu-link">
-                    <div class="text-truncate" data-i18n="Analytics">Order as Seller </div>
-                </a>
-            </li>
-        @endcan
-        @can('order-archive')
-            <li class="menu-item active">
-                <a href="{{ route('orders.archived') }}" class="menu-link">
-                    <div class="text-truncate" data-i18n="Analytics">Order as purchaser </div>
-                </a>
-            </li>
-        @endcan
 
-        <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-ecommerce-dashboard.html"
-                target="_blank" class="menu-link">
-                <div class="text-truncate" data-i18n="eCommerce">eCommerce</div>
-                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                </div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="https://demos.themeselection.com/sneat-bootstrap-html-admin-template/html/vertical-menu-template/app-logistics-dashboard.html"
-                target="_blank" class="menu-link">
-                <div class="text-truncate" data-i18n="Logistics">Logistics</div>
-                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                </div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-academy-dashboard.html" target="_blank" class="menu-link">
-                <div class="text-truncate" data-i18n="Academy">Academy</div>
-                <div class="badge rounded-pill bg-label-primary text-uppercase fs-tiny ms-auto">Pro
-                </div>
-            </a>
-        </li>
-    </ul>
-    </li> --}}
         @php
             use App\Models\Wallet;
             $authId = Auth::id();
@@ -143,7 +68,7 @@
             @can('admin-wallet')
                 <li class="menu-item">
                     <a href="{{ route('admin.wallet') }}" class="menu-link">
-                        <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                        <i class='bx bx-wallet'></i> <!-- Market Place Icon -->
                         <div class="text-truncate" data-i18n="Without menu">Admin Wallet</div>
                     </a>
                 </li>
@@ -151,7 +76,7 @@
         @elseif($sellerWallet)
             <li class="menu-item">
                 <a href="{{ route('seller_balance.wallet') }}" class="menu-link">
-                    <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                    <i class='bx bx-wallet-alt'></i> <!-- Market Place Icon -->
                     <div class="text-truncate" data-i18n="Without menu">Seller Wallet</div>
                 </a>
             </li>
@@ -162,7 +87,7 @@
         @can('seller-wallet')
             <li class="menu-item">
                 <a href="{{ route('seller.wallet') }}" class="menu-link">
-                    <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                    <i class='bx bx-money'></i> <!-- Market Place Icon -->
                     <div class="text-truncate" data-i18n="Without menu">Pay To Seller Wallet</div>
                 </a>
             </li>
@@ -186,7 +111,7 @@
         <li class="menu-item">
             @can('permission-list')
                 <a href="{{ route('permission.index') }}" class="menu-link">
-                    <i class='bx bx-lock-alt'></i> <!-- Permission Icon -->
+                    <i class='bx bx-lock'></i> <!-- Permission Icon -->
                     <div class="text-truncate" data-i18n="Without menu">Permission</div>
                 </a>
             @endcan
@@ -195,7 +120,7 @@
         <li class="menu-item">
             @can('role-list')
                 <a href="{{ route('roles.index') }}" class="menu-link">
-                    <i class='bx bx-user-check'></i> <!-- Roles Icon -->
+                    <i class='bx bx-user-pin'></i> <!-- Roles Icon -->
                     <div class="text-truncate" data-i18n="Without navbar">Roles</div>
                 </a>
             @endcan
@@ -206,6 +131,22 @@
             <a href="{{ route('categories.index') }}" class="menu-link">
                 <i class='bx bx-category'></i> <!-- Category Icon -->
                 <div class="text-truncate" data-i18n="Fluid">Category</div>
+            </a>
+            {{-- @endcan --}}
+        </li>
+        <li class="menu-item">
+            {{-- @can('category-list') --}}
+            <a href="{{ route('cities.index') }}" class="menu-link">
+                <i class='bx bx-buildings'></i> <!-- Category Icon -->
+                <div class="text-truncate" data-i18n="Fluid">Cities</div>
+            </a>
+            {{-- @endcan --}}
+        </li>
+        <li class="menu-item">
+            {{-- @can('category-list') --}}
+            <a href="{{ route('regions.index') }}" class="menu-link">
+                <i class='bx bx-map'></i> <!-- Category Icon -->
+                <div class="text-truncate" data-i18n="Fluid">Regions</div>
             </a>
             {{-- @endcan --}}
         </li>
@@ -230,7 +171,7 @@
             @can('admin-orders')
                 <li class="menu-item">
                     <a href="{{ route('admin.orders') }}" class="menu-link">
-                        <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                        <i class='bx bx-package'></i> <!-- Market Place Icon -->
                         <div class="text-truncate" data-i18n="Without menu">Admin Orders</div>
                     </a>
                 </li>
@@ -238,7 +179,7 @@
         @else
             <li class="menu-item">
                 <a href="{{ route('orders.delivered_orders') }}" class="menu-link">
-                    <i class='bx bx-cart'></i> <!-- Order As Seller Icon -->
+                    <i class='bx bx-check-shield'></i> <!-- Order As Seller Icon -->
                     <div class="text-truncate" data-i18n="Blank">Delivered Orders</div>
                 </a>
             </li>
@@ -265,7 +206,7 @@
 
         <li class="menu-item">
             <a href="{{ route('orders.pending') }}" class="menu-link">
-                <i class='bx bx-archive'></i> <!-- Order As Purchaser Icon -->
+                <i class='bx bx-hourglass'></i> <!-- Order As Purchaser Icon -->
                 <div class="text-truncate" data-i18n="Blank">
                     Pending Orders: <span style="color: red; display: inline;">{{ $pendingOrderCount }}</span>
                 </div>

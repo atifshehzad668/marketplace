@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>Demo : Login Basic - Pages | sneat - Bootstrap Dashboard PRO</title>
+    <title>{{ config('app.name') }}</title>
 
     <meta name="description" content="" />
 
@@ -105,11 +105,11 @@
                                         </g>
                                     </svg>
                                 </span>
-                                <span class="app-brand-text demo text-heading fw-bold">sneat</span>
+                                <span class="app-brand-text demo text-heading fw-bold">MarketPlace</span>
                             </a>
                         </div>
                         <!-- /Logo -->
-                        <h4 class="mb-1">Welcome to CRM! 👋</h4>
+                        <h4 class="mb-1">Welcome to MarketPlace! 👋</h4>
                         <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
                         <form method="POST" action="{{ route('login') }}">
@@ -126,7 +126,7 @@
                                     </div>
                                 @enderror
                             </div>
-                           
+
 
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>

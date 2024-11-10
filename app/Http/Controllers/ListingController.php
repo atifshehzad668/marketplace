@@ -170,6 +170,7 @@ class ListingController extends Controller
     {
         $listing = Listing::findOrFail($id);
         $categories = Category::all(); // Assuming you have a Category model
+         // Assuming you have a Category model
 
         return view('listings.edit', compact('listing', 'categories'));
     }

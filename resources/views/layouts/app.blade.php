@@ -106,8 +106,8 @@
                                                 <div class="flex-shrink-0 me-3">
                                                     <div class="avatar avatar-online">
                                                         <img src="{{ Auth::user()->profile_image ? asset(Auth::user()->profile_image) : 'path/to/default/image.jpg' }}"
-                                                        alt="Profile Image" style="width: 45px; height: 45px;"
-                                                        class="rounded-circle" />
+                                                            alt="Profile Image" style="width: 45px; height: 45px;"
+                                                            class="rounded-circle" />
                                                     </div>
                                                 </div>
                                                 <div class="flex-grow-1">
@@ -162,7 +162,7 @@
 
 
                     <!-- Footer -->
-                    <footer class="content-footer footer bg-footer-theme">
+                    {{-- <footer class="content-footer footer bg-footer-theme">
                         <div class="container-xxl">
                             <div
                                 class="footer-container d-flex align-items-center justify-content-between py-4 flex-md-row flex-column">
@@ -190,7 +190,7 @@
                                 </div>
                             </div>
                         </div>
-                    </footer>
+                    </footer> --}}
                     <!-- / Footer -->
 
                     <div class="content-backdrop fade"></div>

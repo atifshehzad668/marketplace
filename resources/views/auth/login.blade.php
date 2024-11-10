@@ -126,6 +126,7 @@
                                     </div>
                                 @enderror
                             </div>
+                           
 
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>

@@ -13,6 +13,8 @@
                             <th>Seller Name</th>
                             <th>Buyer Name</th>
                             <th>Status</th>
+                            <th>Buyer Status</th>
+                            <th>Seller Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -30,6 +32,8 @@
                                 <td>{{ $order->seller->name }}</td>
                                 <td>{{ $order->buyer->name }}</td>
                                 <td>{{ $order->status }}</td>
+                                <td>{{ $order->buyer_status }}</td>
+                                <td>{{ $order->seller_status }}</td>
 
                                 <td>
                                     <div class="dropdown">
@@ -38,19 +42,27 @@
                                             <i class="bx bx-dots-vertical-rounded"></i>
                                         </button>
                                         <div class="dropdown-menu">
-                                            @if ($order->status !== 'Delivered')
+                                            @if ($order->seller_status === 'Pending')
                                                 @if ($order->Orderlisting && $order->Orderlisting->user_id == Auth::id())
-                                                    <form action="{{ route('orders.processing', $order->id) }}"
+                                                    <form action="{{ route('orders.shipping', $order->id) }}"
                                                         method="POST">
                                                         @csrf
                                                         <button type="submit" class="dropdown-item">
-                                                            <i class="bx bx-loader bx-spin me-1"></i> Process
+                                                            <i class="bx bx-loader bx-spin me-1"></i> Shipping
+                                                        </button>
+                                                    </form>
+                                                @endif
+                                            @elseif ($order->buyer_status === 'Pending' && $order->seller_status === 'Delivered')
+                                                @if ($order->buyer_id == Auth::id())
+                                                    <form action="{{ route('orders.received_orders', $order->id) }}"
+                                                        method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="dropdown-item">
+                                                            <i class="bx bx-loader bx-spin me-1"></i> Received
                                                         </button>
                                                     </form>
                                                 @endif
                                             @endif
-
-
 
 
                                         </div>

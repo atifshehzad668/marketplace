@@ -132,6 +132,50 @@
         </li>
     </ul>
     </li> --}}
+        @php
+            use App\Models\Wallet;
+            $authId = Auth::id();
+            $isSuperAdmin = Auth::user()->hasRole('Super Admin');
+            $sellerWallet = Wallet::where('user_id', $authId)->first();
+        @endphp
+
+        @if ($isSuperAdmin)
+            @can('admin-wallet')
+                <li class="menu-item">
+                    <a href="{{ route('admin.wallet') }}" class="menu-link">
+                        <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                        <div class="text-truncate" data-i18n="Without menu">Admin Wallet</div>
+                    </a>
+                </li>
+            @endcan
+        @elseif($sellerWallet)
+            <li class="menu-item">
+                <a href="{{ route('seller_balance.wallet') }}" class="menu-link">
+                    <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                    <div class="text-truncate" data-i18n="Without menu">Seller Wallet</div>
+                </a>
+            </li>
+        @endif
+
+
+
+        @can('seller-wallet')
+            <li class="menu-item">
+                <a href="{{ route('seller.wallet') }}" class="menu-link">
+                    <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                    <div class="text-truncate" data-i18n="Without menu">Pay To Seller Wallet</div>
+                </a>
+            </li>
+        @endcan
+        {{-- @can('admin-orders')
+            <li class="menu-item">
+                <a href="{{ route('admin.orders') }}" class="menu-link">
+                    <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                    <div class="text-truncate" data-i18n="Without menu">Admin Orders</div>
+                </a>
+            </li>
+        @endcan --}}
+
         <li class="menu-item">
             <a href="{{ route('market.place') }}" class="menu-link">
                 <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
@@ -179,9 +223,27 @@
         <li class="menu-item">
             <a href="{{ route('orders.index') }}" class="menu-link">
                 <i class='bx bx-cart'></i> <!-- Order As Seller Icon -->
-                <div class="text-truncate" data-i18n="Blank">Sold Orders</div>
+                <div class="text-truncate" data-i18n="Blank">Shipping Orders</div>
             </a>
         </li>
+        @if (auth()->user()->hasRole('Super Admin'))
+            @can('admin-orders')
+                <li class="menu-item">
+                    <a href="{{ route('admin.orders') }}" class="menu-link">
+                        <i class='bx bx-store-alt'></i> <!-- Market Place Icon -->
+                        <div class="text-truncate" data-i18n="Without menu">Admin Orders</div>
+                    </a>
+                </li>
+            @endcan
+        @else
+            <li class="menu-item">
+                <a href="{{ route('orders.delivered_orders') }}" class="menu-link">
+                    <i class='bx bx-cart'></i> <!-- Order As Seller Icon -->
+                    <div class="text-truncate" data-i18n="Blank">Delivered Orders</div>
+                </a>
+            </li>
+        @endif
+
 
         <li class="menu-item">
             <a href="{{ route('orders.archived') }}" class="menu-link">
@@ -192,7 +254,7 @@
         @php
             use App\Models\Order;
             $authId = Auth::id();
-            $pendingOrderCount = Order::where('status', 'Pending')
+            $pendingOrderCount = Order::where('buyer_status', 'Pending')
                 ->where(function ($query) use ($authId) {
                     $query->where('seller_id', $authId)->orWhere('buyer_id', $authId);
                 })

@@ -16,4 +16,18 @@ class WalletTransaction extends Model
         'image',
         'description',
     ];
+
+
+    public function admin_wallet_transaction()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function seller_wallet_transaction()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function order()
+    {
+        return $this->belongsTo(Order::class, 'order_id');
+    }
 }

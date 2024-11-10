@@ -24,6 +24,7 @@ class MarketplaceController extends Controller
             $query->where('is_main', true);
         }])
             ->where('user_id', '!=', Auth::id())
+            ->where('quantity', '>', 0)
             ->paginate(10);
         $cities = City::all();
         $regions = Region::all();
@@ -45,7 +46,14 @@ class MarketplaceController extends Controller
         $order->seller_id = $listing->user_id;
         $order->buyer_id = Auth::id();
         $order->status = 'Pending';
+        $order->seller_status = 'Pending';
+        $order->buyer_status = 'Pending';
         $order->save();
+
+        $listing_quantity = Listing::findOrfail($id);
+        $listing_quantity->quantity -= 1;
+        $listing_quantity->save();
+
 
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -85,7 +93,8 @@ class MarketplaceController extends Controller
         $authId = Auth::id();
 
         $pending_orders = Order::with(['Orderlisting', 'seller', 'buyer'])
-            ->where('status', 'Pending')
+            ->where('buyer_status', 'Pending')
+            ->orWhere('seller_status', 'Pending')
             ->where(function ($query) use ($authId) {
                 $query->where('seller_id', $authId)
                     ->orWhere('buyer_id', $authId);
@@ -119,7 +128,8 @@ class MarketplaceController extends Controller
         $regionId = $request->input('region_id');
 
         $listings = Listing::with(['images' => function ($query) {
-            $query->where('is_main', true);
+            $query->where('is_main', true)
+                ->where('quantity', '>', 0);
         }]);
 
         // Add filtering based on city and region
@@ -139,7 +149,7 @@ class MarketplaceController extends Controller
         $headline = $request->input('search');
         $listings = Listing::with(['images' => function ($query) {
             $query->where('is_main', true);
-        }])
+        }])->where('quantity', '>', 0)
             ->where('headline', 'LIKE', $headline . '%')
             ->get();
 

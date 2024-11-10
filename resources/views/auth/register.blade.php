@@ -135,7 +135,17 @@
                                     </span>
                                 @enderror
                             </div>
+                            <div class="mb-6">
+                                <label for="contact" class="form-label">Contact</label>
+                                <input type="number" class="form-control @error('contact') is-invalid @enderror"
+                                    id="contact" name="contact" placeholder="Enter your contact" autofocus />
 
+                                @error('contact')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password">Password</label>
                                 <div class="input-group input-group-merge">

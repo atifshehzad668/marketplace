@@ -43,7 +43,8 @@ class PermissionTableSeeder extends Seeder
             'user-edit',
             'user-delete',
             'purchase-order-index',
-
+            'admin-wallet',
+            'admin-orders',
 
 
 

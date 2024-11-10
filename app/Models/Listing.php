@@ -14,7 +14,7 @@ class Listing extends Model
         'region_id',
         'headline',
         'description',
-        'quantity',
+        // 'quantity',
         'price',
         'expiration_date',
 

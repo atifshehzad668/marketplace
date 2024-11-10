@@ -3,7 +3,7 @@
 @section('content')
     <form action="{{ route('listings.update', $listing->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
-        @method('PUT') <!-- Use PUT for update -->
+
         <div class="container-xxl flex-grow-1 container-p-y">
             <div class="card mb-6">
                 <div class="card-header">

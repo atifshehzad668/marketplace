@@ -11,6 +11,8 @@ class Order extends Model
         'seller_id',
         'buyer_id',
         'status',
+        'seller_status',
+        'buyer_status',
     ];
 
     /**
@@ -41,5 +43,9 @@ class Order extends Model
     public function buyer()
     {
         return $this->belongsTo(User::class, 'buyer_id');
+    }
+    public function order_wallet_transaction()
+    {
+        return $this->belongsTo(WalletTransaction::class, 'order_id');
     }
 }

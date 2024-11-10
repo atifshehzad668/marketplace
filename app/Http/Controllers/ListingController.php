@@ -115,7 +115,7 @@ class ListingController extends Controller
             'city_id' => 'required|exists:cities,id',
             'region_id' => 'required|exists:regions,id',
             'description' => 'required|string',
-            'quantity' => 'required|integer|min:1',
+            // 'quantity' => 'required|integer|min:1',
             'price' => 'required|integer',
             'expiration_date' => 'required|date',
         ]);
@@ -128,7 +128,7 @@ class ListingController extends Controller
             'region_id' => $request->region_id,
             'headline' => $request->headline,
             'description' => $request->description,
-            'quantity' => $request->quantity,
+            // 'quantity' => $request->quantity,
             'price' => $request->price,
             'expiration_date' => $request->expiration_date,
         ]);

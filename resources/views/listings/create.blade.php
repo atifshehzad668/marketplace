@@ -87,7 +87,7 @@
                         </div>
                     </div>
 
-                    <!-- Quantity -->
+                    {{-- <!-- Quantity -->
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Quantity</label>
                         <div class="col-sm-10">
@@ -96,7 +96,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Price</label>
                         <div class="col-sm-10">

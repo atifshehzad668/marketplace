@@ -11,4 +11,11 @@ class Wallet extends Model
         'balance',
 
     ];
+
+
+
+    public function admin()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

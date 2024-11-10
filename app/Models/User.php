@@ -23,7 +23,9 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_image',
+        'contact',
     ];
+
 
     /**
      * The attributes that should be hidden for serialization.
@@ -68,5 +70,27 @@ class User extends Authenticatable
     public function ordersAsBuyer()
     {
         return $this->hasMany(Order::class, 'buyer_id');
+    }
+
+
+
+
+    public function admin_wallet()
+    {
+        return $this->belongsTo(Wallet::class, 'user_id');
+    }
+
+    /**
+     * Get all of the admin_wallet_transactions for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function admin_wallet_transactions()
+    {
+        return $this->hasMany(WalletTransaction::class, 'user_id');
+    }
+    public function seller_wallet_transactions()
+    {
+        return $this->hasMany(WalletTransaction::class, 'user_id');
     }
 }

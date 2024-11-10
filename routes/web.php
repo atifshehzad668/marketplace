@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\WalletTransactionController;
 
 Route::get('/admin/dashboad', function () {
     return view('layouts.app');
@@ -166,7 +167,10 @@ Route::middleware('auth')->group(function () {
         ->name('orders.archived');
 
 
-    Route::post('orders/processing/{id}', [OrderController::class, 'processing'])->name('orders.processing');
+    Route::post('orders/shipping/{id}', [OrderController::class, 'shipping'])->name('orders.shipping');
+    Route::post('orders/delivered/{id}', [OrderController::class, 'delivered'])->name('orders.delivered');
+    Route::get('delivered/orders', [OrderController::class, 'delivered_orders'])->name('orders.delivered_orders');
+    Route::post('received/orders/{id}', [OrderController::class, 'received_orders'])->name('orders.received_orders');
     Route::get('listings/list', [ListingController::class, 'get_listings'])->name('listings.list');
 
 
@@ -183,6 +187,17 @@ Route::middleware('auth')->group(function () {
     Route::get('success', [MarketplaceController::class, 'success'])->name('success');
     Route::get('cancel', [MarketplaceController::class, 'cancel'])->name('cancel');
     Route::get('orders/pending', [MarketplaceController::class, 'pending'])->name('orders.pending');
+
+
+
+    // Admin wallet
+    Route::get('/admin/wallet', [WalletTransactionController::class, 'admin_wallet'])->middleware('permission:admin-wallet')->name('admin.wallet');
+    Route::get('/seller/wallet/balance', [WalletTransactionController::class, 'seller_wallet_balance'])->name('seller_balance.wallet');
+    Route::get('/admin/orders', [WalletTransactionController::class, 'admin_orders'])->middleware('permission:admin-orders')->name('admin.orders');
+    Route::get('/transaction/description', [WalletTransactionController::class, 'description'])->name('transaction.description');
+    Route::get('/seller/wallet', [WalletTransactionController::class, 'seller_wallet'])->middleware('permission:seller-wallet')->name('seller.wallet');
+    Route::get('/order/details', [WalletTransactionController::class, 'order_details'])->name('order.details');
+    Route::post('/pay/seller', [WalletTransactionController::class, 'pay_to_seller'])->name('pay.seller');
 });
 
 require __DIR__ . '/auth.php';

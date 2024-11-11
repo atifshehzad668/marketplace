@@ -21,8 +21,8 @@
                             <tr>
                                 <td>
                                     @if ($listing->images->isNotEmpty())
-                                        <img src="{{ asset('storage/' . $listing->images->first()->image_url) }}"
-                                            alt="Main Image" style="width: 80px; height: auto;">
+                                        <img src="{{ asset($listing->images->first()->image_url) }}" alt="Main Image"
+                                            style="width: 80px; height: auto;">
                                     @else
                                         <span>No image</span>
                                     @endif

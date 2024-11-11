@@ -52,7 +52,7 @@
                                                         </button>
                                                     </form>
                                                 @endif
-                                            @elseif ($order->buyer_status === 'Pending' && $order->seller_status === 'Delivered')
+                                            @elseif (($order->buyer_status === 'Pending' || $order->buyer_status === 'Paid') && $order->seller_status === 'Delivered')
                                                 @if ($order->buyer_id == Auth::id())
                                                     <form action="{{ route('orders.received_orders', $order->id) }}"
                                                         method="POST">

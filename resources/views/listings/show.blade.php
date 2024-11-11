@@ -13,8 +13,8 @@
             <div class="carousel-inner" style="height: 100%;">
                 @foreach ($images as $index => $image)
                     <div class="carousel-item {{ $index == 0 ? 'active' : '' }}" style="height: 100%;">
-                        <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 h-100"
-                            alt="Listing Image" style="object-fit: cover;">
+                        <img src="{{ asset($image->image_url) }}" class="d-block w-100 h-100" alt="Listing Image"
+                            style="object-fit: cover;">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>{{ $listing->headline }}</h5>
                             <p>{{ $listing->description }}</p>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             // Alter the 'status' column to include 'Shipping'
-            $table->enum('status', ['Pending', 'Delivered', 'Shipping'])->change();
+            $table->enum('status', ['Pending', 'Paid', 'Delivered', 'Shipping'])->change();
         });
     }
 

@@ -29,8 +29,9 @@
                             <th>Buyer Name</th>
                             <th>Order Name</th>
                             <th>contact</th>
-                            <th>Price</th>
+                            <th>$Price</th>
                             <th>Type</th>
+                            <th>Proof</th>
                             <th>Transaction Key</th>
                         </tr>
                     </thead>
@@ -41,8 +42,10 @@
                                 <td>{{ $seller_wallet_transaction->order->buyer->name }}</td>
                                 <td>{{ $seller_wallet_transaction->order->Orderlisting->headline }}</td>
                                 <td>{{ $seller_wallet_transaction->order->buyer->contact }}</td>
-                                <td>{{ $seller_wallet_transaction->amount }}</td>
+                                <td>${{ $seller_wallet_transaction->amount }}</td>
                                 <td>{{ $seller_wallet_transaction->type }}</td>
+                                <td><img src="{{ asset($seller_wallet_transaction->image) }}" width="100px" height="100px"
+                                        alt=""></td>
 
                                 <td>{{ $seller_wallet_transaction->transaction_ref }}</td>
 

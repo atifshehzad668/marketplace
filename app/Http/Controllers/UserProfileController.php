@@ -42,6 +42,9 @@ class UserProfileController extends Controller
 
 
         if ($request->hasFile('profile_image')) {
+            if ($user->profile_image && file_exists(public_path($user->profile_image))) {
+                unlink(public_path($user->profile_image));
+            }
             $file = $request->file('profile_image');
             $fileName = time() . '_' . $file->getClientOriginalName();
             $filePath = 'uploads/profile_images';
@@ -62,5 +65,40 @@ class UserProfileController extends Controller
         $user->save();
 
         return redirect()->route('user.profile.edit', $id)->with('success', 'User Updated Successfully');
+    }
+    public function password_edit(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+
+        return view('user_profile.passwrod_edit', get_defined_vars());
+    }
+
+
+    public function password_update(Request $request, $id)
+    {
+
+        $user = User::findOrFail($id);
+
+
+        $validator = Validator::make($request->all(), [
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+
+        if ($validator->fails()) {
+            return redirect()->route('user.password.edit', $id)->withInput()->withErrors($validator);
+        }
+
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+        }
+
+
+        $user->save();
+
+
+        return redirect()->route('user.password.edit', $id)->with('success', 'Password Updated Successfully');
     }
 }

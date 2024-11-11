@@ -47,8 +47,8 @@
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         @if ($listing->images->isNotEmpty())
-                            <img src="{{ asset('storage/' . $listing->images->first()->image_url) }}"
-                                class="card-img-top custom-img" alt="Main Image">
+                            <img src="{{ asset($listing->images->first()->image_url) }}" class="card-img-top custom-img"
+                                alt="Main Image">
                         @else
                             <span>No image</span>
                         @endif

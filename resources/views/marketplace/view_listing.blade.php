@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        
+
         <div class="row">
             <div class="col-12 col-md-8">
                 <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel"
@@ -18,8 +18,8 @@
                     <div class="carousel-inner" style="height: 100%;">
                         @foreach ($images as $index => $image)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}" style="height: 100%;">
-                                <img src="{{ asset('storage/' . $image->image_url) }}" class="d-block w-100 h-100"
-                                    alt="Listing Image" style="object-fit: contain; height: 100%;">
+                                <img src="{{ asset($image->image_url) }}" class="d-block w-100 h-100" alt="Listing Image"
+                                    style="object-fit: contain; height: 100%;">
                             </div>
                         @endforeach
                     </div>

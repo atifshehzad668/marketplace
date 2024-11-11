@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/user/profile/edit/{id}', [UserProfileController::class, 'edit'])->name('user.profile.edit');
     Route::post('/user/profile/update/{id}', [UserProfileController::class, 'update'])->name('user.profile.update');
+    Route::get('/user/password/edit/{id}', [UserProfileController::class, 'password_edit'])->name('user.password.edit');
+    Route::post('/user/password/update/{id}', [UserProfileController::class, 'password_update'])->name('user.password.update');
 
 
 

@@ -149,16 +149,22 @@ class ListingController extends Controller
         // Handle image uploads
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
+
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $imagePath = $image->storeAs('images/listings', $fileName, 'public');
+                $filePath = 'uploads/listings_image';
+
+
+                $image->move(public_path($filePath), $fileName);
+
 
                 ListingImage::create([
                     'listing_id' => $listing->id,
-                    'image_url' => $imagePath,
+                    'image_url' => $filePath . '/' . $fileName,
                     'is_main' => $index === 0,
                 ]);
             }
         }
+
 
         return redirect()->route('listings.index')->with('success', 'Listing created successfully!');
     }
@@ -170,7 +176,7 @@ class ListingController extends Controller
     {
         $listing = Listing::findOrFail($id);
         $categories = Category::all(); // Assuming you have a Category model
-         // Assuming you have a Category model
+        // Assuming you have a Category model
 
         return view('listings.edit', compact('listing', 'categories'));
     }

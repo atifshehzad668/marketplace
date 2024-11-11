@@ -129,10 +129,28 @@
                                             <i class="bx bx-user bx-md me-3"></i><span>My Profile</span>
                                         </a>
                                     </li>
-                                    {{-- <li>
-                                        <a class="dropdown-item" href="#"> <i
-                                                class="bx bx-cog bx-md me-3"></i><span>Settings</span> </a>
-                                    </li> --}}
+                                    <li>
+                                        <a class="dropdown-item"
+                                            href="{{ route('user.password.edit', ['id' => Auth::id()]) }}">
+
+                                            <i class="bx bx-user bx-md me-3"></i><span>Reset Password</span>
+                                        </a>
+                                    </li>
+
+                                    @php
+                                        use App\Models\Wallet;
+                                        $authId = Auth::id();
+
+                                        $sellerWallet = Wallet::where('user_id', $authId)->first();
+                                    @endphp
+                                    @if ($sellerWallet)
+                                        <li>
+                                            <a class="dropdown-item" href="{{ route('seller_balance.wallet') }}">
+
+                                                <i class="bx bx-wallet-alt bx-md me-3"></i><span>Seller Wallet</span>
+                                            </a>
+                                        </li>
+                                    @endif
 
                                     <li>
                                         <div class="dropdown-divider my-1"></div>

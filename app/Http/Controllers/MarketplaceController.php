@@ -45,9 +45,9 @@ class MarketplaceController extends Controller
         $order->listing_id = $id;
         $order->seller_id = $listing->user_id;
         $order->buyer_id = Auth::id();
-        $order->status = 'Pending';
+        $order->status = 'Paid';
         $order->seller_status = 'Pending';
-        $order->buyer_status = 'Pending';
+        $order->buyer_status = 'Paid';
         $order->save();
 
         $listing_quantity = Listing::findOrfail($id);
@@ -94,6 +94,7 @@ class MarketplaceController extends Controller
 
         $pending_orders = Order::with(['Orderlisting', 'seller', 'buyer'])
             ->where('buyer_status', 'Pending')
+            ->orWhere('buyer_status', 'Paid')
             ->orWhere('seller_status', 'Pending')
             ->where(function ($query) use ($authId) {
                 $query->where('seller_id', $authId)

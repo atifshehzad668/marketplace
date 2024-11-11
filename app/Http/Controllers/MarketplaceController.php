@@ -115,22 +115,11 @@ class MarketplaceController extends Controller
 
     public function filterlistingsbycity(Request $request)
     {
-        // $cityId = $request->input('city_id');
-        // $listings = Listing::with(['images' => function ($query) {
-        //     $query->where('is_main', true);
-        // }])
-        //     ->where('city_id', $cityId)
-        //     ->get();
-
-        // return response()->json(['listings' => $listings]);
-
-
         $cityId = $request->input('city_id');
         $regionId = $request->input('region_id');
 
         $listings = Listing::with(['images' => function ($query) {
-            $query->where('is_main', true)
-                ->where('quantity', '>', 0);
+            $query->where('is_main', true);
         }]);
 
         // Add filtering based on city and region
@@ -142,8 +131,43 @@ class MarketplaceController extends Controller
             $listings->where('region_id', $regionId);
         }
 
+        // Apply the condition to the listings for quantity > 0
+        $listings->where('quantity', '>', 0);
+
         return response()->json(['listings' => $listings->get()]);
     }
+    // public function filterlistingsbycity(Request $request)
+    // {
+    //     $cityId = $request->input('city_id');
+    //     $regionId = $request->input('region_id');
+
+    //     $listings = Listing::with(['images' => function ($query) {
+    //         $query->where('is_main', true);
+    //     }]);
+
+    //     // Add filtering based on city and region
+    //     if ($cityId) {
+    //         $listings->where('city_id', $cityId);
+    //     }
+
+    //     if ($regionId) {
+    //         $listings->where('region_id', $regionId);
+    //     }
+
+    //     // Apply the condition to the listings for quantity > 0
+    //     $listings->where('quantity', '>', 0);
+
+    //     // Get the listings and include the image URL in the response
+    //     $listings = $listings->get()->map(function ($listing) {
+    //         // Assume images are directly stored in the 'public/images/listings/' directory
+    //         $listing->image_url = $listing->images->first() ?
+    //             asset('uploads/listings_image/' . $listing->images->first()->image_url) : null;
+    //         return $listing;
+    //     });
+
+    //     return response()->json(['listings' => $listings]);
+    // }
+
 
     public function searchListings(Request $request)
     {

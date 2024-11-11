@@ -155,26 +155,27 @@
                         if (data.listings.length > 0) {
                             data.listings.forEach(function(listing) {
                                 var images = listing.images.length > 0 ?
-                                    `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
+                                    `<img src="{{ asset('') }}${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
                                     '<span>No image</span>';
 
+
                                 var listingCard = `
-                                    <div class="card" style="width: 18rem;">
-                                        <div class="card-body">
-                                            ${images}
-                                            <h5 class="card-title"> Name: ${listing.headline}</h5>
-                                            <p class="card-text"><h5 style="display: inline">Price: </h5>${listing.price}</p>
-                                            <div class="d-flex justify-content-between mt-2 py-1 ml-2">
-                                                <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
-                                              <a href="javascript:void(0)" class="btn btn-primary buy-btn"
-                                                data-listing-id="${listing.id}"
-                                                data-listing-name="${listing.headline}"
-                                                data-listing-price="${listing.price}">
-                                                Buy
-                                                </a>
-                                            </div>
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        ${images}
+                                        <h5 class="card-title"> Name: ${listing.headline}</h5>
+                                        <p class="card-text"><h5 style="display: inline">Price: </h5>${listing.price}</p>
+                                        <div class="d-flex justify-content-between mt-2 py-1 ml-2">
+                                            <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
+                                          <a href="javascript:void(0)" class="btn btn-primary buy-btn"
+                                            data-listing-id="${listing.id}"
+                                            data-listing-name="${listing.headline}"
+                                            data-listing-price="${listing.price}">
+                                            Buy
+                                            </a>
                                         </div>
-                                    </div>`;
+                                    </div>
+                                </div>`;
                                 $('#listing-container').append(listingCard);
                             });
                         } else {
@@ -190,6 +191,58 @@
                     }, 1000);
                 }
             });
+            // $.ajax({
+            //     type: "GET",
+            //     url: "{{ route('filter.bycity') }}",
+            //     data: {
+            //         'city_id': cityId,
+            //         'region_id': regionId
+            //     },
+            //     success: function(data) {
+            //         setTimeout(() => { // 1-second delay
+            //             $('#listing-container').html(''); // Clear existing listings
+            //             if (data.listings.length > 0) {
+            //                 data.listings.forEach(function(listing) {
+            //                     var images = listing.image_url ?
+            //                         `<img src="${listing.image_url}" class="card-img-top custom-img" alt="Main Image">` :
+            //                         '<span>No image</span>';
+
+            //                     var listingCard = `
+        //             <div class="card" style="width: 18rem;">
+        //                 <div class="card-body">
+        //                     ${images}
+        //                     <h5 class="card-title"> Name: ${listing.headline}</h5>
+        //                     <p class="card-text"><h5 style="display: inline">Price: </h5>${listing.price}</p>
+        //                     <div class="d-flex justify-content-between mt-2 py-1 ml-2">
+        //                         <a href="/listing/view/${listing.id}" class="btn btn-primary">View</a>
+        //                         <a href="javascript:void(0)" class="btn btn-primary buy-btn"
+        //                             data-listing-id="${listing.id}"
+        //                             data-listing-name="${listing.headline}"
+        //                             data-listing-price="${listing.price}">
+        //                             Buy
+        //                         </a>
+        //                     </div>
+        //                 </div>
+        //             </div>`;
+            //                     $('#listing-container').append(listingCard);
+            //                 });
+            //             } else {
+            //                 $('#listing-container').html('<h3>No Listings Found</h3>');
+            //             }
+            //             Swal.close();
+            //         }, 1000);
+            //     },
+            //     error: function(err) {
+            //         setTimeout(() => { // 1-second delay
+            //             Swal.close();
+            //             console.log(err.responseText);
+            //         }, 1000);
+            //     }
+            // });
+
+
+
+
         });
 
         $("#listing_key").on("keyup", function() {
@@ -220,7 +273,7 @@
                     if (data.listings.length > 0) {
                         data.listings.forEach(function(listing) {
                             var images = listing.images.length > 0 ?
-                                `<img src="/storage/${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
+                                `<img src="{{ asset('') }}${listing.images[0].image_url}" class="card-img-top custom-img" alt="Main Image">` :
                                 '<span>No image</span>';
                             var listingCard = `
                         <div class="card" style="width: 18rem;">

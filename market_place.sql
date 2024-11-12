@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Nov 11, 2024 at 01:07 PM
+-- Generation Time: Nov 11, 2024 at 02:08 PM
 -- Server version: 8.0.31
 -- PHP Version: 8.2.0
 
@@ -282,14 +282,15 @@ CREATE TABLE IF NOT EXISTS `listings` (
   KEY `listings_category_id_foreign` (`category_id`),
   KEY `listings_city_id_foreign` (`city_id`),
   KEY `listings_region_id_foreign` (`region_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `listings`
 --
 
 INSERT INTO `listings` (`id`, `user_id`, `category_id`, `city_id`, `region_id`, `headline`, `description`, `quantity`, `price`, `expiration_date`, `created_at`, `updated_at`) VALUES
-(1, 2, 1, 2, 7, 'test 1', 'some information', 0, '100.00', '2024-11-30', '2024-11-11 06:20:32', '2024-11-11 06:26:29');
+(1, 2, 1, 2, 7, 'test 1', 'some information', 0, '100.00', '2024-11-30', '2024-11-11 06:20:32', '2024-11-11 06:26:29'),
+(2, 2, 1, 2, 7, 'test 2', 'asdfa', 1, '200.00', '2024-11-30', '2024-11-11 08:15:46', '2024-11-11 08:15:46');
 
 -- --------------------------------------------------------
 
@@ -324,14 +325,15 @@ CREATE TABLE IF NOT EXISTS `listing_images` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `listing_images_listing_id_foreign` (`listing_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `listing_images`
 --
 
 INSERT INTO `listing_images` (`id`, `listing_id`, `image_url`, `is_main`, `created_at`, `updated_at`) VALUES
-(1, 1, 'uploads/listings_image/1731324032_jawad1.jpg', 1, '2024-11-11 06:20:32', '2024-11-11 06:20:32');
+(1, 1, 'uploads/listings_image/1731324032_jawad1.jpg', 1, '2024-11-11 06:20:32', '2024-11-11 06:20:32'),
+(2, 2, 'uploads/listings_image/1731330946_logo3.jpg', 1, '2024-11-11 08:15:46', '2024-11-11 08:15:46');
 
 -- --------------------------------------------------------
 
@@ -638,7 +640,7 @@ CREATE TABLE IF NOT EXISTS `point_transactions` (
   KEY `point_transactions_buyer_id_foreign` (`buyer_id`),
   KEY `point_transactions_listing_id_foreign` (`listing_id`),
   KEY `point_transactions_order_id_foreign` (`order_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Dumping data for table `point_transactions`
@@ -646,7 +648,8 @@ CREATE TABLE IF NOT EXISTS `point_transactions` (
 
 INSERT INTO `point_transactions` (`id`, `seller_id`, `buyer_id`, `listing_id`, `order_id`, `description`, `type`, `created_at`, `updated_at`) VALUES
 (1, 2, NULL, 1, NULL, 'Listing point', 'bonus', '2024-11-11 06:20:32', '2024-11-11 06:20:32'),
-(2, 2, 3, 1, 1, 'Listing Shipped', 'bonus', '2024-11-11 06:41:25', '2024-11-11 06:41:25');
+(2, 2, 3, 1, 1, 'Listing Shipped', 'bonus', '2024-11-11 06:41:25', '2024-11-11 06:41:25'),
+(3, 2, NULL, 2, NULL, 'Listing point', 'bonus', '2024-11-11 08:15:46', '2024-11-11 08:15:46');
 
 -- --------------------------------------------------------
 
@@ -950,9 +953,9 @@ CREATE TABLE IF NOT EXISTS `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('cidjJf7sK5QEZCD5ZyNQvGGnb5mkkOjiXTQYvq51', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ3hRekhpT1pBWk9OUHRFV05oWmQ3Z3Y4MjgzaWU4Wkk3TTgwakgycSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM0OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vb3JkZXJzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1731326801),
-('ULzSUfZlreGiFquZNc7pcfbSKTaAMZeIS6Vcmq77', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicmRXelZYSlk1TktidkxJMG5kWjdkczZjRnVDMnhoSUhKSjlNY1NZZCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNDoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL21hcmtldC9wbGFjZSI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM3OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvb3JkZXJzL2FyY2hpdmVkIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6Mjt9', 1731326838),
-('xsTQ2tS84vfvP7nv3z9faqHFVXS50Z082hTtxlyh', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaFNid3pmSk81dllIVlhqQ2ROZTBwa0RCVkxVdFY3Y0JPT2dTU0J0NSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tYXJrZXQvcGxhY2UiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO30=', 1731330016);
+('cidjJf7sK5QEZCD5ZyNQvGGnb5mkkOjiXTQYvq51', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoiZ3hRekhpT1pBWk9OUHRFV05oWmQ3Z3Y4MjgzaWU4Wkk3TTgwakgycSI7czozOiJ1cmwiO2E6MDp7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjM0OiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYWRtaW4vb3JkZXJzIjt9czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9', 1731330898),
+('ULzSUfZlreGiFquZNc7pcfbSKTaAMZeIS6Vcmq77', 2, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo1OntzOjY6Il90b2tlbiI7czo0MDoicmRXelZYSlk1TktidkxJMG5kWjdkczZjRnVDMnhoSUhKSjlNY1NZZCI7czozOiJ1cmwiO2E6MTp7czo4OiJpbnRlbmRlZCI7czozNDoiaHR0cDovLzEyNy4wLjAuMTo4MDAwL21hcmtldC9wbGFjZSI7fXM6OToiX3ByZXZpb3VzIjthOjE6e3M6MzoidXJsIjtzOjMwOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvbGlzdGluZ3MiO31zOjY6Il9mbGFzaCI7YToyOntzOjM6Im9sZCI7YTowOnt9czozOiJuZXciO2E6MDp7fX1zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToyO30=', 1731330946),
+('xsTQ2tS84vfvP7nv3z9faqHFVXS50Z082hTtxlyh', 3, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36', 'YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaFNid3pmSk81dllIVlhqQ2ROZTBwa0RCVkxVdFY3Y0JPT2dTU0J0NSI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6MzQ6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9tYXJrZXQvcGxhY2UiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aTozO30=', 1731333996);
 
 -- --------------------------------------------------------
 
@@ -1025,7 +1028,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`id`, `name`, `profile_image`, `email`, `contact`, `email_verified_at`, `password`, `username`, `points_balance`, `region_id`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Atif Shehzad', NULL, 'aatifshehzad668@gmail.com', NULL, NULL, '$2y$12$jwUmm60773NcoqkfiQcwSuz5hLfgWI05eqhZ0J6V7L4ylp3YScf3.', 'atif.shehzad', 0, NULL, NULL, '2024-11-11 06:16:21', '2024-11-11 06:16:21'),
-(2, 'sir kosar', NULL, 'sirkosar123@gmail.com', '1345678', NULL, '$2y$12$oGn8UTwtrsw4ePKPGquTX.92xwrwbBp5EMnP14gxVUqesjHAyKYDu', NULL, 2, NULL, NULL, '2024-11-11 06:17:32', '2024-11-11 06:17:32'),
+(2, 'sir kosar', 'uploads/profile_images/1731330915_room1.jpeg', 'sirkosar123@gmail.com', '1345678', NULL, '$2y$12$oGn8UTwtrsw4ePKPGquTX.92xwrwbBp5EMnP14gxVUqesjHAyKYDu', NULL, 3, NULL, NULL, '2024-11-11 06:17:32', '2024-11-11 08:15:15'),
 (3, 'Shayan Ahmad', 'uploads/profile_images/1731326543_profile.jpeg', 'shayanahmad123@gmail.com', '12345678', NULL, '$2y$12$oQ0yTbIcEb4CVUCb2GPwyO.Zh24k.BkFQIkvh72bYuJHyhT9il3OG', NULL, 0, NULL, NULL, '2024-11-11 06:24:39', '2024-11-11 08:00:02');
 
 -- --------------------------------------------------------

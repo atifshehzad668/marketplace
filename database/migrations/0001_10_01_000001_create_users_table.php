@@ -19,7 +19,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('username')->unique()->nullable();
-            $table->integer('points_balance')->default(0);
+            $table->decimal('points_balance')->default(0);
+            $table->decimal('wallet_balance')->default(0);
 
             $table->unsignedBigInteger('region_id')->nullable();
             $table->rememberToken();

@@ -40,13 +40,17 @@
                             @enderror
                         </div>
                     </div>
+                    <!-- City Dropdown -->
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">City</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="city_id" id="city-select">
                                 <option value="">Select city</option>
                                 @foreach ($cities as $city)
-                                    <option value="{{ $city->id }}">{{ $city->city_name }}</option>
+                                    <option value="{{ $city->id }}"
+                                        {{ $city->id == $listing->city_id ? 'selected' : '' }}>
+                                        {{ $city->city_name }}
+                                    </option>
                                 @endforeach
                             </select>
                             @error('city_id')
@@ -61,6 +65,7 @@
                         <div class="col-sm-10">
                             <select class="form-control" name="region_id" id="region-select">
                                 <option value="">Select region</option>
+                                <!-- Options will be loaded dynamically based on the selected city -->
                             </select>
                             @error('region_id')
                                 <div class="text-danger">{{ $message }}</div>
@@ -68,12 +73,29 @@
                         </div>
                     </div>
 
+
                     <!-- Description -->
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Description</label>
                         <div class="col-sm-10">
                             <textarea class="form-control" name="description" placeholder="Description">{{ old('description', $listing->description) }}</textarea>
                             @error('description')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">Shipping Require</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="require_shipping" id="require_shipping_select">
+                                <option value="Yes"
+                                    {{ old('require_shipping', $listing->require_shipping) === 'Yes' ? 'selected' : '' }}>
+                                    Yes</option>
+                                <option value="No"
+                                    {{ old('require_shipping', $listing->require_shipping) === 'No' ? 'selected' : '' }}>No
+                                </option>
+                            </select>
+                            @error('require_shipping')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
@@ -91,9 +113,20 @@
                         </div>
                     </div>
                     <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">Price</label>
+                        <div class="col-sm-10">
+                            <input type="number" class="form-control" name="price"
+                                value="{{ old('price', $listing->price) }}" min="1" />
+                            @error('price')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Images</label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control" name="images[]" multiple />
+                            <input type="file" class="form-control" name="images[]" multiple max="10" />
+                            <small class="text-muted">You can upload up to 10 images.</small> <!-- Info message -->
                             @error('images')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror

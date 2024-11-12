@@ -24,6 +24,7 @@ class User extends Authenticatable
         'password',
         'profile_image',
         'contact',
+        'points_balance',
     ];
 
 
@@ -77,8 +78,11 @@ class User extends Authenticatable
 
     public function admin_wallet()
     {
-        return $this->belongsTo(Wallet::class, 'user_id');
+        return $this->hasOne(Wallet::class, 'user_id', 'id');
     }
+
+
+
 
     /**
      * Get all of the admin_wallet_transactions for the User
@@ -92,5 +96,16 @@ class User extends Authenticatable
     public function seller_wallet_transactions()
     {
         return $this->hasMany(WalletTransaction::class, 'user_id');
+    }
+
+
+    /**
+     * Get all of the point_transactions for the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function point_transactions()
+    {
+        return $this->hasMany(PointTransaction::class);
     }
 }

@@ -14,7 +14,14 @@ class WalletTransactionController extends Controller
     {
         $wallet_balance = Wallet::where('user_id', Auth::id())->first();
 
-        $wallet_transactions = WalletTransaction::with('admin_wallet_transaction', 'order')->where('type', 'Credit')->paginate(2);
+        $wallet_transactions = WalletTransaction::with('admin_wallet_transaction', 'order')
+            ->where('user_id', Auth::id())
+            ->where(function ($query) {
+                $query->where('type', 'Credit')
+                    ->orWhere('type', 'Debit');
+            })
+            ->paginate(5);
+
 
         return view('admin_wallet.admin_wallet', get_defined_vars());
     }
@@ -65,7 +72,7 @@ class WalletTransactionController extends Controller
         if ($order) {
 
             $orderPrice = $order->Orderlisting->price;
-            $withoutCommissionPrice = $orderPrice * 0.80;
+            $withoutCommissionPrice = $orderPrice;
 
 
             return response()->json([
@@ -148,12 +155,20 @@ class WalletTransactionController extends Controller
 
     public function seller_wallet_balance()
     {
+
         $seller_wallet_balance = Wallet::where('user_id', Auth::id())->first();
+        // $wallet_transaction_order_seller_id = WalletTransaction::with('order')->get();
+
 
         $seller_wallet_transactions = WalletTransaction::with(['seller_wallet_transaction', 'order'])
             ->where('user_id', Auth::id())
-            ->where('type', 'Debit')
-            ->paginate(2);
+            ->where(function ($query) {
+                $query->where('type', 'Credit')
+                    ->orWhere('type', 'Debit');
+            })
+            ->paginate(5);
+
+
 
         return view('seller_wallet.seller_waller_balance', get_defined_vars());
     }

@@ -115,7 +115,8 @@ class ListingController extends Controller
             'city_id' => 'required|exists:cities,id',
             'region_id' => 'required|exists:regions,id',
             'description' => 'required|string',
-            // 'quantity' => 'required|integer|min:1',
+            'quantity' => 'required|integer|min:1',
+            'require_shipping' => 'required',
             'price' => 'required|integer',
             'expiration_date' => 'required|date',
         ]);
@@ -128,7 +129,8 @@ class ListingController extends Controller
             'region_id' => $request->region_id,
             'headline' => $request->headline,
             'description' => $request->description,
-            // 'quantity' => $request->quantity,
+            'quantity' => $request->quantity,
+            'require_shipping' => $request->require_shipping,
             'price' => $request->price,
             'expiration_date' => $request->expiration_date,
         ]);
@@ -174,25 +176,69 @@ class ListingController extends Controller
      */
     public function edit($id)
     {
+        $cities = City::all();
         $listing = Listing::findOrFail($id);
         $categories = Category::all(); // Assuming you have a Category model
         // Assuming you have a Category model
+        $regions = Region::all();
 
-        return view('listings.edit', compact('listing', 'categories'));
+        return view('listings.edit', compact('listing', 'categories', 'cities'));
     }
 
 
     /**
      * Update the specified resource in storage.
      */
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    //     $request->validate([
+    //         'category_id' => 'required|exists:categories,id',
+    //         'headline' => 'required|string|max:255',
+    //     ]);
+
+
+    //     $listing = Listing::findOrFail($id);
+    //     $listing->update([
+    //         'category_id' => $request->category_id,
+    //         'headline' => $request->headline,
+    //         'description' => $request->description,
+    //         'quantity' => $request->quantity,
+    //         'expiration_date' => $request->expiration_date,
+    //     ]);
+
+
+    //     foreach ($listing->images as $image) {
+    //         Storage::disk('public')->delete($image->image_url);
+    //         $image->delete();
+    //     }
+
+
+    //     if ($request->hasFile('images')) {
+    //         foreach ($request->file('images') as $index => $image) {
+
+    //             $fileName = time() . '_' . $image->getClientOriginalName();
+    //             $imagePath = $image->storeAs('images/listings', $fileName, 'public');
+
+
+    //             ListingImage::create([
+    //                 'listing_id' => $listing->id,
+    //                 'image_url' => $imagePath,
+    //                 'is_main' => $index === 0,
+    //             ]);
+    //         }
+    //     }
+
+    //     return redirect()->route('listings.index')->with('success', 'Listing updated successfully!');
+    // }
+
+
     public function update(Request $request, $id)
     {
-        //
         $request->validate([
             'category_id' => 'required|exists:categories,id',
             'headline' => 'required|string|max:255',
         ]);
-
 
         $listing = Listing::findOrFail($id);
         $listing->update([
@@ -200,26 +246,33 @@ class ListingController extends Controller
             'headline' => $request->headline,
             'description' => $request->description,
             'quantity' => $request->quantity,
+            'price' => $request->price,
+            'require_shipping' => $request->require_shipping,
             'expiration_date' => $request->expiration_date,
         ]);
 
 
         foreach ($listing->images as $image) {
-            Storage::disk('public')->delete($image->image_url);
+            $imagePath = public_path($image->image_url);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
             $image->delete();
         }
 
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
-
                 $fileName = time() . '_' . $image->getClientOriginalName();
-                $imagePath = $image->storeAs('images/listings', $fileName, 'public');
+                $filePath = 'uploads/listings_image';
+
+
+                $image->move(public_path($filePath), $fileName);
 
 
                 ListingImage::create([
                     'listing_id' => $listing->id,
-                    'image_url' => $imagePath,
+                    'image_url' => $filePath . '/' . $fileName,
                     'is_main' => $index === 0,
                 ]);
             }
@@ -227,6 +280,7 @@ class ListingController extends Controller
 
         return redirect()->route('listings.index')->with('success', 'Listing updated successfully!');
     }
+
 
 
 
@@ -242,7 +296,10 @@ class ListingController extends Controller
 
 
         foreach ($images as $image) {
-            Storage::disk('public')->delete($image->image_url);
+            $imagePath = public_path($image->image_url);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
             $image->delete();
         }
 

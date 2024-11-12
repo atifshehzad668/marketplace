@@ -8,9 +8,11 @@ use App\Models\Region;
 use App\Models\Listing;
 use App\Models\ListingImage;
 use App\Models\Payment;
+use App\Models\ShippingDetail;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Models\WalletTransaction;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
@@ -37,10 +39,33 @@ class MarketplaceController extends Controller
         $images = ListingImage::where('listing_id', $listing->id)->get();
         return view('marketplace.view_listing', get_defined_vars());
     }
-    public function buy($id)
+    public function buy(Request $request, $id)
     {
+        $address = $request->input('address');
+        $city = $request->input('city');
+        $state = $request->input('state');
+        $postalCode = $request->input('postal_code');
+        $country = $request->input('country');
+        $user = User::find(Auth::id());
+
+        //user address
+        $user_address = new ShippingDetail();
+        $user_address->user_id = $user->id;
+        $user_address->address = $address;
+        $user_address->city = $city;
+        $user_address->state = $state;
+        $user_address->postal_code = $postalCode;
+        $user_address->country = $country;
+        $user_address->shipping_method = "no_method";
+        $user_address->save();
+
+
+
+
 
         $listing = Listing::findOrFail($id);
+
+
         $order = new Order();
         $order->listing_id = $id;
         $order->seller_id = $listing->user_id;
@@ -48,6 +73,7 @@ class MarketplaceController extends Controller
         $order->status = 'Paid';
         $order->seller_status = 'Pending';
         $order->buyer_status = 'Paid';
+        $order->days_until_payment = Carbon::now()->addDays(20)->format('Y-m-d H:i:s');
         $order->save();
 
         $listing_quantity = Listing::findOrfail($id);

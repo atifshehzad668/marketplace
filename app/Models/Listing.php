@@ -14,7 +14,8 @@ class Listing extends Model
         'region_id',
         'headline',
         'description',
-        // 'quantity',
+        'require_shipping',
+        'quantity',
         'price',
         'expiration_date',
 
@@ -31,6 +32,10 @@ class Listing extends Model
     public function Orders()
     {
         return $this->hasMany(Order::class);
+    }
+    public function points_transactions()
+    {
+        return $this->hasMany(PointTransaction::class);
     }
 
     /**

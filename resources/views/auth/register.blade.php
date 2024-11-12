@@ -8,7 +8,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-        <title>{{ config('app.name') }}</title>
+    <title>{{ config('app.name') }}</title>
 
     <meta name="description" content="" />
 
@@ -161,7 +161,7 @@
                                     </span>
                                 @enderror
                             </div>
-
+                            <input type="hidden" name="points_balance" value="300.00" id="">
                             <div class="mb-6 form-password-toggle">
                                 <label class="form-label" for="password_confirmation">Confirm Password</label>
                                 <div class="input-group input-group-merge">

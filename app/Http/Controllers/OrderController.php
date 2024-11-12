@@ -7,6 +7,7 @@ use App\Models\Wallet;
 use App\Models\Listing;
 use Illuminate\Http\Request;
 use App\Models\PointTransaction;
+use App\Models\User;
 use App\Models\WalletTransaction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -48,50 +49,86 @@ class OrderController extends Controller
         $order->buyer_status = 'Received';
         $order->save();
         $sellerId = $order->seller->id;
+        $admin_user = User::where('id', 1)->first();
+        $admin_id = $admin_user->id;
 
 
         $walletTransaction = WalletTransaction::where('order_id', $order->id)->first();
-        $adminWalletId = $walletTransaction->wallet_id;
+
+        // $adminWalletId = Wallet::where('user_id', $admin_id)->first();
+
         $paidAmount = $walletTransaction->amount;
 
 
-        $amountToTransfer = $paidAmount * 0.80;
+
+        // $percentagePaid = 80;
+        // $percentageRemaining = 20;
+
+        // $sellerpercentage = $paidAmount * ($percentagePaid / 100);
+        // $adminpercentage = $paidAmount * ($percentageRemaining / 100);
+        // $adminDescription = json_encode([
+
+        //     "adminPercentage" => [
+        //         "value" => $adminpercentage,
+        //         "description" => "Admin's share based on 20% allocation of the paid amount, added to admin wallet."
+        //     ]
+        // ], JSON_PRETTY_PRINT);
+
+        // $adminWallet = Wallet::where('user_id', $admin_id)->first();
 
 
-        $adminWallet = Wallet::findOrFail($adminWalletId);
 
-        if ($adminWallet->balance >= $amountToTransfer) {
-            $adminWallet->balance -= $amountToTransfer;
-            $adminWallet->save();
-        } else {
-            throw new \Exception("Insufficient funds in admin wallet");
-        }
+        // if ($adminWallet->balance >= $sellerpercentage) {
+        //     $adminWallet->balance -= $sellerpercentage;
+        //     $adminWallet->save();
+        // } else {
+        //     throw new \Exception("Insufficient funds in admin wallet");
+        // }
+        // // dump("here");
+        // // exit();
 
-        // Step 3: Check if a wallet exists for the seller; if not, create one
+        // $wallet_transaction = new  WalletTransaction();
+        // $wallet_transaction->user_id = $admin_id;
+        // $wallet_transaction->wallet_id = $adminWallet->id;
+        // $wallet_transaction->order_id = $order->id;
+        // $wallet_transaction->amount = $sellerpercentage;
+        // $wallet_transaction->type = "Debit";
+        // $wallet_transaction->balance = $adminWallet->balance;
+        // $wallet_transaction->transaction_ref = "internal";
+        // $wallet_transaction->description = $adminDescription;
+        // $wallet_transaction->image = 'no Image';
+        // $wallet_transaction->save();
+
+
+
+
         $sellerWallet = Wallet::where('user_id', $sellerId)->first();
-
         if (!$sellerWallet) {
-            // Create a new wallet for the seller if it doesn’t exist
+
             $sellerWallet = new Wallet();
             $sellerWallet->user_id = $sellerId;
-            $sellerWallet->balance = 0;  // Initialize with 0 balance
+            $sellerWallet->balance = 0;
             $sellerWallet->save();
         }
 
-        // Step 4: Add the 80% amount to the seller's wallet
-        $sellerWallet->balance += $amountToTransfer;
+
+        $sellerWallet->balance += $paidAmount;
         $sellerWallet->save();
 
 
+        $sellerWalletTransaction1 = new WalletTransaction();
+        $sellerWalletTransaction1->user_id = $sellerId;
+        $sellerWalletTransaction1->wallet_id = $sellerWallet->id;
+        $sellerWalletTransaction1->order_id = $order->id;
+        $sellerWalletTransaction1->amount = $paidAmount;
+        $sellerWalletTransaction1->type = "Credit";
+        $sellerWalletTransaction1->balance = $sellerWallet->balance;
+        $sellerWalletTransaction1->transaction_ref = "internal";
+        $sellerWalletTransaction1->description = "Seller's share based on 100% allocation of the paid amount.";
+        $sellerWalletTransaction1->image = 'no Image';
+        $sellerWalletTransaction1->save();
 
-        // if ($order->buyer_status === 'Received') {
 
-
-
-        //     if ($walletTransaction) {
-
-        //     }
-        // }
         return redirect()->route('orders.pending')->with('success', 'Ordered Received  Successfully');
     }
 
@@ -185,6 +222,7 @@ class OrderController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Order $order)
+
     {
         //
     }

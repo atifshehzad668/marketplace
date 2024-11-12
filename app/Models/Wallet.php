@@ -14,8 +14,8 @@ class Wallet extends Model
 
 
 
-    public function admin()
+    public function admin_wallet()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class);
     }
 }

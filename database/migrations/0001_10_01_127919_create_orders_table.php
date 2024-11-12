@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedBigInteger('seller_id');
             $table->unsignedBigInteger('buyer_id');
             $table->enum('status', ['Pending', 'Delivered']);
+            $table->integer('points_deducted')->default(0);
+            $table->date('days_until_payment')->nullable();
             $table->timestamps();
             $table->foreign('listing_id')->references('id')->on('listings')->onDelete('cascade');
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');

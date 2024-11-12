@@ -25,7 +25,10 @@ class UserController extends Controller // implements HasMiddleware
     // }
     public function index()
     {
-        $users = User::latest()->paginate(10);
+
+        $users = User::with('admin_wallet')->latest()->paginate(10);
+        
+
         return view('user.index', get_defined_vars());
     }
 

@@ -140,10 +140,10 @@
                                     @php
                                         use App\Models\Wallet;
                                         $authId = Auth::id();
-
+                                        $isSuperAdmin = Auth::user()->hasRole('Super Admin');
                                         $sellerWallet = Wallet::where('user_id', $authId)->first();
                                     @endphp
-                                    @if ($sellerWallet)
+                                    @if ($sellerWallet && !$isSuperAdmin)
                                         <li>
                                             <a class="dropdown-item" href="{{ route('seller_balance.wallet') }}">
 

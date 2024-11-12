@@ -11,6 +11,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PracticeController;
 use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PointController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
@@ -254,7 +255,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/market/place', [MarketplaceController::class, 'marketplace'])->name('market.place');
     Route::get('/listing/view/{id}', [MarketplaceController::class, 'listings_view'])->name('listing.view');
-    Route::get('orders/buy/{id}', [MarketplaceController::class, 'buy'])->name('orders.buy');
+    Route::post('orders/buy/{id}', [MarketplaceController::class, 'buy'])->name('orders.buy');
     Route::get('success', [MarketplaceController::class, 'success'])->name('success');
     Route::get('cancel', [MarketplaceController::class, 'cancel'])->name('cancel');
     Route::get('orders/pending', [MarketplaceController::class, 'pending'])->name('orders.pending');
@@ -269,6 +270,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/seller/wallet', [WalletTransactionController::class, 'seller_wallet'])->middleware('permission:seller-wallet')->name('seller.wallet');
     Route::get('/order/details', [WalletTransactionController::class, 'order_details'])->name('order.details');
     Route::post('/pay/seller', [WalletTransactionController::class, 'pay_to_seller'])->name('pay.seller');
+
+
+
+
+    //points routes
+    Route::get('/points/details', [PointController::class, 'points_details'])->name('points.details');
 });
 
 require __DIR__ . '/auth.php';

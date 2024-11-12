@@ -69,12 +69,14 @@
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Images</label>
                         <div class="col-sm-10">
-                            <input type="file" class="form-control" name="images[]" multiple />
+                            <input type="file" class="form-control" name="images[]" multiple max="10" />
+                            <small class="text-muted">You can upload up to 10 images.</small> <!-- Info message -->
                             @error('images')
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
                     </div>
+
 
                     <!-- Description -->
                     <div class="row mb-6">
@@ -87,7 +89,24 @@
                         </div>
                     </div>
 
-                    {{-- <!-- Quantity -->
+
+
+
+                    {{-- require_shipping --}}
+                    <div class="row mb-6">
+                        <label class="col-sm-2 col-form-label">Shipping Require</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" name="require_shipping" id="require_shipping_select">
+                                <option value="Yes">Yes</option>
+                                <option value="No">No</option>
+
+                            </select>
+                            @error('require_shipping')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+                    <!-- Quantity -->
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Quantity</label>
                         <div class="col-sm-10">
@@ -96,7 +115,7 @@
                                 <div class="text-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="row mb-6">
                         <label class="col-sm-2 col-form-label">Price</label>
                         <div class="col-sm-10">

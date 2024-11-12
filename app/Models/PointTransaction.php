@@ -14,4 +14,18 @@ class PointTransaction extends Model
         'description',
         'type',
     ];
+
+    /**
+     * Get the user that owns the PointTransaction
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user_seller()
+    {
+        return $this->belongsTo(User::class, 'seller_id', 'id');
+    }
+    public function listings()
+    {
+        return $this->belongsTo(Listing::class, 'listing_id', 'id');
+    }
 }

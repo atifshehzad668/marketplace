@@ -309,25 +309,137 @@
 
 
 
+        // $(document).on('click', '.buy-btn', function() {
+        //     let listingId = $(this).data('listing-id'); // Get the listing ID
+        //     let listingName = $(this).data('listing-name'); // Get the listing name
+        //     let listingPrice = $(this).data('listing-price');
+
+        //     Swal.fire({
+        //         title: `Do you like to buy | ${listingName} | for  $${listingPrice}?`,
+        //         html: `
+    //     <form id="purchase-form" action="{{ route('orders.buy', ':id') }}" method="POST">
+    //         @csrf
+    //         <input type="hidden" name="listing_id" value="${listingId}">
+    //         <label for="quantity">Quantity:</label>
+    //         <input type="number" name="quantity" id="quantity" min="1" max="10" class="form-control mb-2">
+    //     </form>
+    // `,
+        //         showCancelButton: true, // Show cancel button
+        //         confirmButtonText: "Yes, proceed to PayPal",
+        //         cancelButtonText: "No, cancel"
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             // Redirect to the "orders.buy" route with the listing ID
+        //             window.location.href = "{{ route('orders.buy', ':id') }}".replace(':id', listingId);
+        //         } else {
+        //             // User clicked "No"
+        //             Swal.fire('Cancelled', 'You did not proceed with the purchase.', 'info');
+        //         }
+        //     });
+        // });
+
+        // $(document).on('click', '.buy-btn', function() {
+        //     let listingId = $(this).data('listing-id'); // Get the listing ID
+        //     let listingName = $(this).data('listing-name'); // Get the listing name
+        //     let listingPrice = $(this).data('listing-price');
+
+        //     Swal.fire({
+        //         title: `Purchase "${listingName}" for $${listingPrice}?`,
+        //         html: `
+    //     <form id="purchase-form" action="{{ route('orders.buy', ':id') }}" method="POST">
+    //         @csrf
+    //         <input type="hidden" name="listing_id" value="${listingId}">
+
+    //         <div class="mb-2">
+    //             <label for="address">Address:</label>
+    //             <input type="text" name="address" id="address" class="form-control">
+    //         </div>
+    //         <div class="mb-2">
+    //             <label for="city">City:</label>
+    //             <input type="text" name="city" id="city" class="form-control">
+    //         </div>
+    //         <div class="mb-2">
+    //             <label for="state">State:</label>
+    //             <input type="text" name="state" id="state" class="form-control">
+    //         </div>
+    //         <div class="mb-2">
+    //             <label for="postal_code">Postal Code:</label>
+    //             <input type="text" name="postal_code" id="postal_code" class="form-control">
+    //         </div>
+    //         <div class="mb-2">
+    //             <label for="country">Country:</label>
+    //             <input type="text" name="country" id="country" class="form-control">
+    //         </div>
+    //     </form>
+    // `,
+        //         showCancelButton: true,
+        //         confirmButtonText: "Proceed to PayPal",
+        //         cancelButtonText: "Cancel",
+        //         focusConfirm: false,
+        //         preConfirm: () => {
+        //             // Submit the form when the user clicks "Proceed to PayPal"
+        //             document.getElementById("purchase-form").submit();
+        //         }
+        //     });
+        // });
         $(document).on('click', '.buy-btn', function() {
             let listingId = $(this).data('listing-id'); // Get the listing ID
             let listingName = $(this).data('listing-name'); // Get the listing name
-            let listingPrice = $(this).data('listing-price');
+            let listingPrice = $(this).data('listing-price'); // Get the listing price
 
+            // Open SweetAlert modal
             Swal.fire({
-                title: `Do you like to buy | ${listingName} | for  $${listingPrice}?`,
-                text: "",
-                icon: "success",
-                showCancelButton: true, // Show cancel button
-                confirmButtonText: "Yes, proceed to PayPal",
-                cancelButtonText: "No, cancel"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    // Redirect to the "orders.buy" route with the listing ID
-                    window.location.href = "{{ route('orders.buy', ':id') }}".replace(':id', listingId);
-                } else {
-                    // User clicked "No"
-                    Swal.fire('Cancelled', 'You did not proceed with the purchase.', 'info');
+                title: `Purchase "${listingName}" for $${listingPrice}?`,
+                html: `
+           <form id="purchase-form" method="POST">
+    @csrf
+    <input type="hidden" name="listing_id" value="${listingId}">
+
+    <!-- First row with two inputs: Address and City -->
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <label for="address">Address:</label>
+            <input type="text" name="address" id="address" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="city">City:</label>
+            <input type="text" name="city" id="city" class="form-control" required>
+        </div>
+    </div>
+
+    <!-- Second row with two inputs: State and Postal Code -->
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <label for="state">State:</label>
+            <input type="text" name="state" id="state" class="form-control" required>
+        </div>
+        <div class="col-md-6">
+            <label for="postal_code">Postal Code:</label>
+            <input type="text" name="postal_code" id="postal_code" class="form-control" required>
+        </div>
+    </div>
+
+    <!-- Third row with one input: Country -->
+    <div class="row mb-2">
+        <div class="col-md-12">
+            <label for="country">Country:</label>
+            <input type="text" name="country" id="country" class="form-control" required>
+        </div>
+    </div>
+</form>
+
+        `,
+                showCancelButton: true,
+                confirmButtonText: "Proceed to PayPal",
+                cancelButtonText: "Cancel",
+                focusConfirm: false,
+                preConfirm: () => {
+                    // Dynamically set the form action
+                    let formAction = `{{ route('orders.buy', ':id') }}`.replace(':id', listingId);
+                    document.getElementById("purchase-form").action = formAction;
+
+                    // Submit the form after setting the action
+                    document.getElementById("purchase-form").submit();
                 }
             });
         });

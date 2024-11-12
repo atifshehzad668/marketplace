@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Point;
+use App\Models\PointTransaction;
 use Illuminate\Http\Request;
 
 class PointController extends Controller
@@ -13,6 +14,18 @@ class PointController extends Controller
     public function index()
     {
         //
+    }
+    public function points_details(Request $request)
+    {
+        $userId = $request->user_id;
+        $seller_points_transactions = PointTransaction::with('user_seller', 'listings')  //
+            ->where('seller_id', $userId)
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'seller_points_transactions' => $seller_points_transactions
+        ]);
     }
 
     /**

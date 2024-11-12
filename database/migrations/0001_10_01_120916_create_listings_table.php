@@ -21,11 +21,13 @@ return new class extends Migration
 
             $table->string('headline', 255);
             $table->text('description')->nullable();
+            $table->string('require_shipping');
             $table->integer('quantity')->default(1);
             $table->decimal('price');
             $table->date('expiration_date')->nullable();
+            $table->date('last_bump_at')->nullable();
             $table->timestamps();
-            
+
 
             // Foreign keys
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

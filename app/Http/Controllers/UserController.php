@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller // implements HasMiddleware
 {
@@ -26,8 +27,8 @@ class UserController extends Controller // implements HasMiddleware
     public function index()
     {
 
-        $users = User::with('admin_wallet')->latest()->paginate(10);
-        
+        $users = User::paginate(10);
+
 
         return view('user.index', get_defined_vars());
     }
@@ -37,7 +38,7 @@ class UserController extends Controller // implements HasMiddleware
      */
     public function create()
     {
-        //
+        return view('user.create', get_defined_vars());
     }
 
     /**
@@ -45,7 +46,29 @@ class UserController extends Controller // implements HasMiddleware
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+
+        $user = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password')),
+        ]);
+
+        $user->assignRole('Salesman');
+        /*
+        if ($request->has('role')) {
+            $roles = $request->input('role'); // Array of role names
+            $user->syncRoles($roles); // Assign roles using Spatie Permission
+        }
+        */
+
+
+        return redirect()->route('user.index')->with('success', 'User created successfully.');
     }
 
     /**
@@ -94,8 +117,10 @@ class UserController extends Controller // implements HasMiddleware
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        $user = User::find($id);
+        $user->delete();
+        return redirect()->route('user.index')->with('success', 'User deleted successfully');
     }
 }

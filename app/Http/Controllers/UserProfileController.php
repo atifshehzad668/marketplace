@@ -26,9 +26,9 @@ class UserProfileController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id . ',id',
-            'password' => 'nullable|min:8|confirmed',
+
             'profile_image' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:2048',
-            'contact' => 'nullable|string|max:20',
+
         ]);
 
         if ($validator->fails()) {
@@ -38,7 +38,7 @@ class UserProfileController extends Controller
 
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->contact = $request->contact;
+
 
 
         if ($request->hasFile('profile_image')) {
@@ -54,9 +54,6 @@ class UserProfileController extends Controller
 
 
             $user->profile_image = $filePath . '/' . $fileName;
-        }
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
         }
 
 

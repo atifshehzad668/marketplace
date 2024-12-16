@@ -4,10 +4,18 @@
     <div class="container-xxl flex-grow-1 container-p-y">
         <!-- Basic Bootstrap Table -->
         <div class="card">
-            <h5 class="card-header">Permissions</h5>
-            @can('permission-create')
-                <a href="{{ route('permission.create') }}" class="btn btn-primary ml-4 col-md-3 mb-4">Create Permission</a>
-            @endcan
+            <div class="row">
+                <div class="col-md-4">
+                    <h5 class="card-header">Permissions</h5>
+                </div>
+                <div class="col-md-6 mt-5 mr-4">
+                    @can('permission-create')
+                        <a href="{{ route('permission.create') }}" class="btn btn-primary ml-4 col-md-3 mb-4 float-end">
+                            Create Permission
+                        </a>
+                    @endcan
+                </div>
+            </div>
 
             <div class="table-responsive text-nowrap">
                 <table class="table">
@@ -43,33 +51,32 @@
                             </td> --}}
                                 {{-- <td><span class="badge bg-label-primary me-1">Active</span></td> --}}
                                 <td>
-                                    <div class="dropdown">
-                                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
-                                            data-bs-toggle="dropdown">
-                                            <i class="bx bx-dots-vertical-rounded"></i>
-                                        </button>
-                                        <div class="dropdown-menu">
+                                    @canany(['permission-edit', 'permission-delete'])
+                                        <div class="d-flex">
+                                            {{-- Edit button, visible only if the user has 'permission-edit' permission --}}
                                             @can('permission-edit')
-                                                <a class="dropdown-item" href="{{ route('permission.edit', $permission->id) }}">
+                                                <a href="{{ route('permission.edit', $permission->id) }}"
+                                                    class="btn btn-sm btn-primary me-2">
                                                     <i class="bx bx-edit-alt me-1"></i> Edit
                                                 </a>
                                             @endcan
 
-
+                                            {{-- Delete button, visible only if the user has 'permission-delete' permission --}}
                                             @can('permission-delete')
-                                                <form action="{{ route('permission.destroy', $permission->id) }}"
-                                                    method="POST">
+                                                <form action="{{ route('permission.destroy', $permission->id) }}" method="POST"
+                                                    id="delete-permission-form-{{ $permission->id }}">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="dropdown-item">
+                                                    <button type="button" class="btn btn-sm btn-danger"
+                                                        onclick="confirmPermissionDelete({{ $permission->id }})">
                                                         <i class="bx bx-trash me-1"></i> Delete
                                                     </button>
                                                 </form>
                                             @endcan
 
-
                                         </div>
-                                    </div>
+                                    @endcanany
+
                                 </td>
                             </tr>
                         @endforeach
@@ -92,4 +99,25 @@
             swal("Good job!", "{{ Session::get('success') }}", "success");
         </script>
     @endif
+@endsection
+
+
+@section('customjs')
+    <script>
+        function confirmPermissionDelete(permissionId) {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "This action cannot be undone!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Yes, delete it!"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(`delete-permission-form-${permissionId}`).submit();
+                }
+            });
+        }
+    </script>
 @endsection

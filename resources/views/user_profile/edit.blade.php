@@ -14,7 +14,7 @@
                                 <label class="col-sm-2 col-form-label" for="basic-default-name">Name</label>
                                 <div class="col-sm-10">
                                     <input type="text" class="form-control" name="name" id="basic-default-name"
-                                        placeholder="John Doe" value="{{ old('name', $user->name) }}" />
+                                        placeholder="John Doe" value="{{ old('name', $user->name) }}"  />
                                     @error('name')
                                         <div class="text-danger">{{ $message }}</div>
                                     @enderror
@@ -48,39 +48,8 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-6">
-                                <label class="col-sm-2 col-form-label" for="basic-default-password">Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="password" id="basic-default-password"
-                                        placeholder="Password" />
-                                    @error('password')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
-                            <div class="row mb-6">
-                                <label class="col-sm-2 col-form-label" for="basic-default-password-confirm">Confirm
-                                    Password</label>
-                                <div class="col-sm-10">
-                                    <input type="password" class="form-control" name="password_confirmation"
-                                        id="basic-default-password-confirm" placeholder="Confirm Password" />
-                                    @error('password_confirmation')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
-                            <div class="row mb-6">
-                                <label class="col-sm-2 col-form-label" for="basic-default-contact">Contact</label>
-                                <div class="col-sm-10">
-                                    <input type="number" class="form-control" name="contact" id="basic-default-contact"
-                                        placeholder="Contact" value="{{ old('contact', $user->contact) }}" />
-                                    @error('contact')
-                                        <div class="text-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
 
                             <div class="row justify-content-end">
                                 <div class="col-sm-10">

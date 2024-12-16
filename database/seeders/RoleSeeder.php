@@ -17,5 +17,8 @@ class RoleSeeder extends Seeder
             'name' => 'Super Admin',
 
         ]);
+        $salesmanRole = Role::create([
+            'name' => 'Salesman',
+        ]);
     }
 }

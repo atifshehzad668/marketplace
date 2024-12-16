@@ -28,14 +28,14 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('market.place', absolute: false));
-        // if (Auth::check()) {
-        //     if (Auth::user()->hasRole('Super Admin')) {
-        //         return redirect()->route('admin.dashboard');
-        //     } elseif (Auth::user()->hasRole('user')) {
-        //         return redirect()->route('user.dashboard');
-        //     }
-        // }
+        // return redirect()->intended(route('main.layout', absolute: false));
+        if (Auth::check()) {
+            if (Auth::user()->hasRole('Super Admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif (Auth::user()->hasRole('Salesman')) {
+                return redirect()->route('salesman.dashboard');
+            }
+        }
 
         // Fallback redirect if user is authenticated but no role matches
         // return redirect()->route('login')->withErrors(['email' => 'No matching role found.']);

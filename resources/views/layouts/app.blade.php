@@ -4,6 +4,7 @@
     data-assets-path="../assets/" data-template="vertical-menu-template-free" data-style="light">
 
 <head>
+    @yield('styles')
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport"
@@ -46,8 +47,7 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 
-<body>
-    <!-- Layout wrapper -->
+<body style="overflow-x: hidden" <!-- Layout wrapper -->
     <div class="layout-wrapper layout-content-navbar">
         <div class="layout-container">
             <!-- Menu -->
@@ -137,20 +137,7 @@
                                         </a>
                                     </li>
 
-                                    @php
-                                        use App\Models\Wallet;
-                                        $authId = Auth::id();
-                                        $isSuperAdmin = Auth::user()->hasRole('Super Admin');
-                                        $sellerWallet = Wallet::where('user_id', $authId)->first();
-                                    @endphp
-                                    @if ($sellerWallet && !$isSuperAdmin)
-                                        <li>
-                                            <a class="dropdown-item" href="{{ route('seller_balance.wallet') }}">
 
-                                                <i class="bx bx-wallet-alt bx-md me-3"></i><span>Seller Wallet</span>
-                                            </a>
-                                        </li>
-                                    @endif
 
                                     <li>
                                         <div class="dropdown-divider my-1"></div>

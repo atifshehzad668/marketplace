@@ -45,7 +45,7 @@
                     </g>
                 </svg>
             </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">Market Place</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">Leads System</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -55,157 +55,101 @@
 
     <div class="menu-inner-shadow"></div>
     <ul class="menu-inner py-1">
-        @php
-            use App\Models\Wallet;
-            $authId = Auth::id();
-            $isSuperAdmin = Auth::user()->hasRole('Super Admin');
-            $sellerWallet = Wallet::where('user_id', $authId)->first();
-        @endphp
-        {{-- Wallet Section --}}
-        @if ($isSuperAdmin)
+        {{-- Permission Item --}}
+        @role('Super Admin')
+            <!-- Show Super Admin Dashboard -->
+            @can('admin-dashboard')
+                <li class="menu-item">
+                    <a href="{{ route('admin.dashboard') }}" class="menu-link">
+                        <i class="bx bx-home-alt"></i> <!-- Icon for Permission -->
+                        <div class="text-truncate">DashBoard</div>
+                    </a>
+                </li>
+            @endcan
+            @can('admin-conversation-index')
+                <li class="menu-item">
+                    <a href="{{ route('admin.conversation.index') }}" class="menu-link">
+                        <i class="bx bx-user-check"></i>
+                        <div class="text-truncate"> Conversations</div>
+                    </a>
+                </li>
+            @endcan
+        @endrole
+
+        @role('Salesman')
+            <!-- Show Salesman Dashboard -->
+            @can('salesman-dashboard')
+                <li class="menu-item">
+                    <a href="{{ route('salesman.dashboard') }}" class="menu-link">
+                        <i class="bx bx-home-alt"></i> <!-- Icon for Permission -->
+                        <div class="text-truncate"> DashBoard</div>
+                    </a>
+                </li>
+            @endcan
+            @can('salesman-leads')
+                <li class="menu-item">
+                    <a href="{{ route('salesman.leads') }}" class="menu-link">
+                        <i class="bx bx-user-check"></i>
+                        <div class="text-truncate"> Accepted Leads</div>
+                    </a>
+                </li>
+            @endcan
+            @can('salesman-conversation-index')
+                <li class="menu-item">
+                    <a href="{{ route('saleman.conversation.index') }}" class="menu-link">
+                        <i class="bx bx-user-check"></i>
+                        <div class="text-truncate"> Conversations</div>
+                    </a>
+                </li>
+            @endcan
+        @endrole
+
+
+        @can('permission-list')
             <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="bx bx-wallet"></i>
-                    <div class="text-truncate">Wallet</div>
+                <a href="{{ route('permission.index') }}" class="menu-link">
+                    <i class="bx bx-lock-alt me-2"></i> <!-- Icon for Permission -->
+                    <div class="text-truncate">Permission</div>
                 </a>
-                <ul class="menu-sub">
-                    @if ($isSuperAdmin)
-                        @can('admin-wallet')
-                            <li class="menu-item">
-                                <a href="{{ route('admin.wallet') }}" class="menu-link">
-                                    <div class="text-truncate">Admin Wallet</div>
-                                </a>
-                            </li>
-                        @endcan
-                    @endif
-                    @can('seller-wallet')
-                        <li class="menu-item">
-                            <a href="{{ route('seller.wallet') }}" class="menu-link">
-                                <div class="text-truncate">Pay To Seller Wallet</div>
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
             </li>
+        @endcan
 
-            {{-- Management Section --}}
+        {{-- Users Item --}}
+        @can('user-list')
             <li class="menu-item">
-                <a href="javascript:void(0);" class="menu-link menu-toggle">
-                    <i class="bx bx-lock"></i>
-                    <div class="text-truncate">Management</div>
+                <a href="{{ route('user.index') }}" class="menu-link">
+                    <i class="bx bx-user me-2"></i> <!-- Icon for Users -->
+                    <div class="text-truncate">Users</div>
                 </a>
-                <ul class="menu-sub">
-                    @can('permission-list')
-                        <li class="menu-item">
-                            <a href="{{ route('permission.index') }}" class="menu-link">
-                                <div class="text-truncate">Permission</div>
-                            </a>
-                        </li>
-                    @endcan
-                    @can('role-list')
-                        <li class="menu-item">
-                            <a href="{{ route('roles.index') }}" class="menu-link">
-                                <div class="text-truncate">Roles</div>
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
             </li>
-        @endif
+        @endcan
 
-        {{-- Location Section --}}
+        {{-- Roles Item --}}
+        @can('role-list')
+            <li class="menu-item">
+                <a href="{{ route('roles.index') }}" class="menu-link">
+                    <i class="bx bx-group me-2"></i> <!-- Icon for Roles -->
+                    <div class="text-truncate">Roles</div>
+                </a>
+            </li>
+        @endcan
+        @can('lead-list')
+            <li class="menu-item">
+                <a href="{{ route('leads.index') }}" class="menu-link">
+                    <i class="bx bx-list-check me-2"></i> <!-- Font Awesome Icon for Leads -->
+                    <div class="text-truncate">Leads</div>
+                </a>
+            </li>
+        @endcan
         <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bx bx-map"></i>
-                <div class="text-truncate">Location</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ route('categories.index') }}" class="menu-link">
-                        <div class="text-truncate">Category</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('cities.index') }}" class="menu-link">
-                        <div class="text-truncate">Cities</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="{{ route('regions.index') }}" class="menu-link">
-                        <div class="text-truncate">Regions</div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        {{-- Orders Section --}}
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="bx bx-cart"></i>
-                <div class="text-truncate">Orders</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="{{ route('orders.index') }}" class="menu-link">
-                        <div class="text-truncate">Shipping Orders</div>
-                    </a>
-                </li>
-                @if ($isSuperAdmin)
-                    @can('admin-orders')
-                        <li class="menu-item">
-                            <a href="{{ route('admin.orders') }}" class="menu-link">
-                                <div class="text-truncate">Admin Orders</div>
-                            </a>
-                        </li>
-                    @endcan
-                @else
-                    <li class="menu-item">
-                        <a href="{{ route('orders.delivered_orders') }}" class="menu-link">
-                            <div class="text-truncate">Delivered Orders</div>
-                        </a>
-                    </li>
-                @endif
-                <li class="menu-item">
-                    <a href="{{ route('orders.archived') }}" class="menu-link">
-                        <div class="text-truncate">Purchase Order</div>
-                    </a>
-                </li>
-                @php
-                    use App\Models\Order;
-                    $authId = Auth::id();
-                    $pendingOrderCount = Order::where('buyer_status', 'Pending')
-                        ->orWhere('buyer_status', 'Paid')
-                        ->where(function ($query) use ($authId) {
-                            $query->where('seller_id', $authId)->orWhere('buyer_id', $authId);
-                        })
-                        ->count();
-                @endphp
-                <li class="menu-item">
-                    <a href="{{ route('orders.pending') }}" class="menu-link">
-                        <div class="text-truncate">
-                            Pending Orders: <span style="color: red;">{{ $pendingOrderCount }}</span>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        {{-- Marketplace Section --}}
-        <li class="menu-item">
-            <a href="{{ route('market.place') }}" class="menu-link">
-                <i class="bx bx-store-alt"></i>
-                <div class="text-truncate">Market Place</div>
-            </a>
-        </li>
-
-        {{-- Listings Section --}}
-        <li class="menu-item">
-            <a href="{{ route('listings.index') }}" class="menu-link">
-                <i class="bx bx-list-ul"></i>
-                <div class="text-truncate">Listings</div>
+            <a href="{{ route('notifications') }}" class="menu-link">
+                <i class="bx bx-user-check"></i>
+                <div class="text-truncate"> Notificatinons</div>
             </a>
         </li>
     </ul>
+
+
 
 
 </aside>

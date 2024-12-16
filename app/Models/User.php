@@ -23,8 +23,7 @@ class User extends Authenticatable
         'email',
         'password',
         'profile_image',
-        'contact',
-        'points_balance',
+      
     ];
 
 
@@ -107,5 +106,22 @@ class User extends Authenticatable
     public function point_transactions()
     {
         return $this->hasMany(PointTransaction::class);
+    }
+
+
+
+    public function seller_points()
+    {
+        return $this->hasMany(PointTrade::class, 'seller_id');
+    }
+
+    /**
+     * Get the listings where the user is the buyer
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function buyer_points()
+    {
+        return $this->hasMany(PointTrade::class, 'buyer_id');
     }
 }
